@@ -22,5 +22,18 @@ export default defineConfig({
       //css: goods-list => tsx: goodsList
       localsConvention: 'camelCase'
     }
+  },
+  // server 服务器配置
+  server: {
+    // proxy
+    open: true,
+    proxy: {
+      '/api': {
+        target: "http://localhost:8080",
+        changeOrigin: true,
+        rewrite: path => path.replace(/^\/api/, ''),
+        ws: false,
+      }
+    }
   }
 })

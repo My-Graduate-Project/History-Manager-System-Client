@@ -1,7 +1,5 @@
 // 动态加载路由
 import loadable from '@loadable/component';
-// layouts
-import Layout from '@/layouts';
 // react-router-config
 import { RouteConfig } from 'react-router-config';
 // 动态加载组件
