@@ -26,7 +26,7 @@ class Home extends Component<HomeProps, HomeState> {
             <div className="homePage">
                 <h1>{this.state.home}</h1>
                 <h1>{this.props.count}</h1>
-                <Link to="/other"></Link>
+                <Link to="/other">跳转到 Other 页面</Link>
             </div>
          );
     }
