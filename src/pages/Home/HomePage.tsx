@@ -4,10 +4,12 @@ import * as React from 'react';
 import { Component } from 'react';
 import {connect} from "react-redux";
 
-import {getRandomData} from "@/api/home"
+// react-router-dom
+import { Link } from "react-router-dom"
 
 interface HomeProps {
     count: number;
+    history: any;
 }
  
 interface HomeState {
@@ -16,23 +18,15 @@ interface HomeState {
  
 class Home extends Component<HomeProps, HomeState> {
     constructor(props: HomeProps) {
-        console.log(props)
         super(props);
         this.state = { home:"Hello React!!!"  };
-    }
-    componentDidMount() {
-        axios.get("http://localhost:8080/getdata").then(res=>{
-            console.log(res)
-        })
-       getRandomData().then(res => {
-           console.log(res)
-       })
     }
     render() { 
         return ( 
             <div className="homePage">
                 <h1>{this.state.home}</h1>
                 <h1>{this.props.count}</h1>
+                <Link to="/other"></Link>
             </div>
          );
     }

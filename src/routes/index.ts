@@ -3,7 +3,8 @@ import loadable from '@loadable/component';
 // react-router-config
 import { RouteConfig } from 'react-router-config';
 // 动态加载组件
-import Home from "@/pages/Home/HomePage" // 首页
+const Home = loadable(() => import('@/pages/Home/HomePage'))// 首页
+const Other = loadable(() => import("@/pages/Others/OtherPage")) // 其他
 
 // 路由配置
 const routes: RouteConfig[] = [
@@ -11,6 +12,10 @@ const routes: RouteConfig[] = [
         path: '/',
         exact: true,
         component: Home,
+    }, {
+        path: '/other',
+        exact: true,
+        component: Other,
     }
 ]
 
