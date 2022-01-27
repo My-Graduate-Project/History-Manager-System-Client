@@ -10,6 +10,8 @@ import routes from './routes'
 import { Provider } from 'react-redux'
 // 引入 store
 import store from './store'
+// 引入 antd 全局样式
+import 'antd/dist/antd.css'; // or 'antd/dist/antd.less'
 
 // 全局样式
 import "./styles/global.scss"
