@@ -1,10 +1,14 @@
 import * as React from 'react'
+import { useState } from 'react'
 import { useRef } from 'react'
 import './scss/index.scss'
 
-function LoginForm() {
+// 组件引入
+import Resiter from '../Register/Register'
+import Login from '../Login/Login'
+
+const LoginForm = () => {
   const container = useRef<HTMLDivElement>(null)
-  console.log(container)
   const signUp = () => {
     container.current?.classList.add('active')
   }
@@ -16,25 +20,13 @@ function LoginForm() {
       <div className="container" ref={container}>
         {/* <!-- register 注册页 --> */}
         <div className="form-container sign-up-container">
-          <div className="form">
-            <h2>sign up</h2>
-            <input type="text" name="username" id="username" placeholder="Username..." />
-            <input type="email" name="emal" id="email" placeholder="Email..." />
-            <input type="password" name="password" id="password" placeholder="Password..." />
-            <button className="signUp">sign up</button>
-          </div>
+          {/* 用户注册组件 */}
+          <Resiter></Resiter>
         </div>
         {/* <!-- login 登录页 --> */}
         <div className="form-container sign-in-container">
-          <div className="form">
-            <h2>sign in</h2>
-            <input type="email" name="emal" id="email" placeholder="Email..." />
-            <input type="password" name="password" id="password" placeholder="Password..." />
-            <a href="#" className="forget-password">
-              forget your password
-            </a>
-            <button className="signIn">sign in</button>
-          </div>
+          {/* 登录组件 */}
+          <Login></Login>
         </div>
         {/* <!-- overlay container 左右切换 --> */}
         <div className="overlay_container">
