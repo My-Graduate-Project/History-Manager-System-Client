@@ -4,11 +4,14 @@ import { connect } from 'react-redux'
 
 // 引入样式
 import './scss/index.scss'
-
+// 组件引入
+import LoginForm from './Components/LoginForm/LoginForm'
+import LoginEarth from './Components/LoginEartch/LoginEarth'
 // 获取请求
 
 // react-router-dom
 import { Link } from 'react-router-dom'
+// 获取图片
 
 // 用于定义组件、请求等传来的数据类型
 interface HomeProps {}
@@ -22,6 +25,7 @@ class Home extends Component<HomeProps, HomeState> {
     // 定义数据
     this.state = {}
   }
+
   /** 用于发起请求数据并获取数据 */
   componentDidMount() {}
   render() {
@@ -34,33 +38,9 @@ class Home extends Component<HomeProps, HomeState> {
           <h1>迦勒底の历史观测所</h1>
         </div>
         {/* 地球仪 */}
-        <div className="big">
-          <div className="bigbox">
-            <div className="box">
-              {/* 竖圈 */}
-              <div></div>
-              <div></div>
-              <div></div>
-              <div></div>
-              <div></div>
-              <div></div>
-              <div></div>
-              <div></div>
-              {/* 横圈 */}
-              <div></div>
-              <div></div>
-              <div></div>
-              <div></div>
-              <div></div>
-              <div></div>
-              <div></div>
-              <div></div>
-              <div></div>
-            </div>
-          </div>
-        </div>
+        <LoginEarth></LoginEarth>
         {/* 1. 用户登录区域 -- 居中 */}
-        <div className="homeCenter"></div>
+        <LoginForm></LoginForm>
       </div>
     )
   }
