@@ -1,14 +1,11 @@
-// 初始化数据
-const initialState = {
-    count: 0,
-}
+// 导入 redux 组件实例
+import { combineReducers } from "redux"
+// 导入注册组件
+import { reducer as registerReducer } from "@/pages/Home/Components/Register/store"
 
-// 创建reducer
-const reducer = (state = initialState, action: any) => {
-    switch (action.type) {
-        default:
-            return state;
-    }
-}
+// 组合所有的reducer
 
-export default reducer;
+export default combineReducers({
+  // 注册组件
+  register: registerReducer,
+})
