@@ -1,8 +1,6 @@
 import { defineConfig } from 'vite'
 import react from '@vitejs/plugin-react'
 import { resolve } from 'path'
-// 环境变量
-import devHost from "./src/configs/config"
 
 // https://vitejs.dev/config/
 export default defineConfig(({ command, mode }) => {
@@ -31,11 +29,13 @@ export default defineConfig(({ command, mode }) => {
       // server 服务器配置
       server: {
         // proxy
-        open: true,
+        host: "localhost",
+        port: 3000,
+        cors: true,
         proxy: {
           '/api': {
             target: "http://localhost:8080",
-            changeOrigin: true,
+            changeOrigin: true, // 允许跨域
             rewrite: path => path.replace(/^\/api/, ''),
             ws: false,
           }

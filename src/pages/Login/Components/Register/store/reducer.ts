@@ -1,7 +1,5 @@
 // 初始化数据
-const initialState = {
-  count: 0,
-}
+const initialState = {}
 
 // 创建reducer
 const reducer = (state = initialState, action: any) => {

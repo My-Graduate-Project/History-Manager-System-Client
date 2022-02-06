@@ -1,9 +1,9 @@
 import axios from "axios";
-
+console.log(process.env.NODE_ENV)
 const config = {
   baseURL:
     process.env.NODE_ENV === "development"
-      ? "/api"
+      ? "http://localhost:8080"
       : "http://47.108.197.220:3010/api",
   timeout: 60 * 1000, // Timeout,
   withCredentials: false, // Check cross-site Access-Control

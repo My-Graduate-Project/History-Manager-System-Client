@@ -1,25 +1,21 @@
-import * as React from 'react';
-import { Component } from 'react';
+import * as React from 'react'
+import { Component } from 'react'
 
-interface OtherProps {
-  
-}
- 
-interface OtherState {
-  
-}
- 
+interface OtherProps {}
+
+interface OtherState {}
+
 class Other extends React.Component<OtherProps, OtherState> {
   constructor(props: OtherProps) {
-    super(props);
+    super(props)
   }
-  render() { 
-    return ( 
+  render() {
+    return (
       <div>
         <h1>OtherPage</h1>
       </div>
-     );
+    )
   }
 }
- 
-export default Other;
+
+export default Other
