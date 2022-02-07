@@ -16,7 +16,6 @@ const container = createRef<HTMLDivElement>()
 class LoginForm extends Component<LoginFormProps, LoginFormState> {
   constructor(props: LoginFormProps) {
     super(props)
-    console.log(this.props)
   }
   signUp = () => {
     container.current?.classList.add('active')
@@ -37,7 +36,7 @@ class LoginForm extends Component<LoginFormProps, LoginFormState> {
           {/* <!-- login 登录页 --> */}
           <div className="form-container sign-in-container">
             {/* 登录组件 */}
-            <Login></Login>
+            <Login {...this.props}></Login>
           </div>
           {/* <!-- overlay container 左右切换 --> */}
           <div className="overlay_container">
