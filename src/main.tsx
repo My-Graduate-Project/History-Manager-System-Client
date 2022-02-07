@@ -24,10 +24,8 @@ import 'antd/dist/antd.css' // or 'antd/dist/antd.less'
 import './styles/global.scss'
 
 ReactDOM.render(
-  <React.StrictMode>
-    <Provider store={store}>
-      <BrowserRouter>{renderRoutes(routes)}</BrowserRouter>
-    </Provider>
-  </React.StrictMode>,
+  <Provider store={store}>
+    <BrowserRouter>{renderRoutes(routes)}</BrowserRouter>
+  </Provider>,
   document.getElementById('root')
 )
