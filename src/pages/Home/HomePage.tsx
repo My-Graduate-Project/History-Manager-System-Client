@@ -6,8 +6,12 @@ import { Layout } from 'antd'
 
 const { Header, Sider, Content } = Layout
 
+// react-router-dom
+import { Switch, Route, HashRouter } from 'react-router-dom'
+
 // 导入组件
 import HomeSiderBar from './Components/HomeSiderBar'
+import Other from '@/pages/Others/OtherPage'
 
 // scss
 import './scss/index.scss'
@@ -31,48 +35,47 @@ class HomePage extends Component<HomePageProps, HomePageState> {
   }
   render() {
     return (
-      <Layout
-        style={{
-          minHeight: '100vh'
-        }}
-        hasSider
-      >
-        {/* 左侧 导航栏 */}
-        <Sider
-          width={275}
+      <HashRouter>
+        <Layout
           style={{
-            overflow: 'auto',
-            height: '100vh',
-            position: 'fixed',
-            left: 0,
-            top: 0,
-            bottom: 0
+            minHeight: '100vh'
           }}
-          theme={'dark'}
-          trigger={null}
-          collapsible
-          collapsed={this.state.collapsed}
+          hasSider
         >
-          {/* 侧边栏 */}
-          <HomeSiderBar />
-        </Sider>
-        {/* 右侧 信息展示栏 */}
-        <Layout className="site-layout" style={{ marginLeft: 275 }}>
-          <Header className="site-layout-background" style={{ padding: 0 }}>
-            {/* 顶部导航栏 */}
-          </Header>
-          <Content
-            className="site-layout-background"
+          {/* 左侧 导航栏 */}
+          <Sider
+            width={275}
             style={{
-              margin: '24px 16px',
-              padding: 24,
-              minHeight: 280
+              overflow: 'auto',
+              height: '100vh',
+              position: 'fixed',
+              left: 0,
+              top: 0,
+              bottom: 0
             }}
+            theme={'dark'}
+            trigger={null}
+            collapsible
+            collapsed={this.state.collapsed}
           >
-            Content
-          </Content>
+            {/* 侧边栏 */}
+            <HomeSiderBar />
+          </Sider>
+          {/* 右侧 信息展示栏 */}
+          <Layout className="site-layout" style={{ marginLeft: 275 }}>
+            <Header className="site-layout-background" style={{ padding: 0 }}>
+              {/* 顶部导航栏 */}
+            </Header>
+            {/* 单页面切换 */}
+            <Switch>
+              {/* 帮助中心部分 */}
+              <Route path="/helpCenter">
+                <Other></Other>
+              </Route>
+            </Switch>
+          </Layout>
         </Layout>
-      </Layout>
+      </HashRouter>
     )
   }
 }

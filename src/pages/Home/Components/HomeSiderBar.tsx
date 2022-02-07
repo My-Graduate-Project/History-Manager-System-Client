@@ -23,6 +23,9 @@ import {
 // Menus
 const { SubMenu } = Menu
 
+// react-router-dom
+import { Link } from 'react-router-dom'
+
 interface HomeSiderBarProps {}
 
 interface HomeSiderBarState {}
@@ -79,7 +82,7 @@ class HomeSiderBar extends React.Component<HomeSiderBarProps, HomeSiderBarState>
           {/* 帮助中心 */}
           <SubMenu key="subHelpCenter" icon={<SettingOutlined />} title="帮助中心">
             <Menu.Item key="subHelpCenter1" icon={<PushpinOutlined />}>
-              常见问题
+              <Link to="/helpCenter">常见问题</Link>
             </Menu.Item>
           </SubMenu>
         </Menu>

@@ -18,11 +18,6 @@ const routes: RouteConfig[] = [
         path: '/home',
         exact: true,
         component: Home,
-    },
-    {
-        path: '/other',
-        exact: true,
-        component: Other,
     }
 ]
 
