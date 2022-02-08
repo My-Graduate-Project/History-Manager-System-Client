@@ -12,6 +12,7 @@ import { Switch, Route, HashRouter } from 'react-router-dom'
 // 导入组件
 import HomeSiderBar from './Components/HomeSiderBar'
 import Other from '@/pages/Others/OtherPage'
+import PersonalInfo from './Components/PersonInfo'
 
 // scss
 import './scss/index.scss'
@@ -63,14 +64,16 @@ class HomePage extends Component<HomePageProps, HomePageState> {
           </Sider>
           {/* 右侧 信息展示栏 */}
           <Layout className="site-layout" style={{ marginLeft: 275 }}>
+            {/* 顶部导航栏 */}
             <Header className="site-layout-background" style={{ padding: 0 }}>
-              {/* 顶部导航栏 */}
+              {/* 用户信息 */}
+              <PersonalInfo></PersonalInfo>
             </Header>
             {/* 单页面切换 */}
             <Switch>
               {/* 首页详情部分 */}
               <Route path="/home">
-                <Content>content</Content>
+                <Content>首页详情</Content>
               </Route>
               {/* 帮助中心部分 */}
               <Route path="/helpCenter">

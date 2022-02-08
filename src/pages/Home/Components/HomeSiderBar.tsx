@@ -49,17 +49,11 @@ class HomeSiderBar extends React.Component<HomeSiderBarProps, HomeSiderBarState>
           </Menu.Item>
           {/* 文章页详情 */}
           <SubMenu key="subArtitle" icon={<SnippetsOutlined />} title="文章详情">
-            <Menu.Item key="subArtitle1" icon={<AlignCenterOutlined />}>
-              文章预览
-            </Menu.Item>
-            <Menu.Item key="subArtitle2" icon={<DatabaseOutlined />}>
+            <Menu.Item key="subArtitle1" icon={<DatabaseOutlined />}>
               文章管理
             </Menu.Item>
-            <Menu.Item key="subArtitle3" icon={<EditOutlined />}>
+            <Menu.Item key="subArtitle2" icon={<EditOutlined />}>
               写文章
-            </Menu.Item>
-            <Menu.Item key="subArtitle4" icon={<AreaChartOutlined />}>
-              文章详细内容
             </Menu.Item>
           </SubMenu>
           {/* 展品画作详情 */}

@@ -20,7 +20,16 @@ const _axios = axios.create(config);
 
 // 请求拦截器
 _axios.interceptors.request.use(
-  (config) => {
+  (config: any) => {
+    const passUrl = ["/login", "/register"]
+    if (passUrl.includes(config.url)) return config;
+    // 获取 token
+    const token = localStorage.getItem("@#@TOKEN");
+    if (token) {
+      config.headers.Authorization = `Bearer ${token}`;
+    } else {
+      window.location.href = "/login"
+    }
     return config;
   },
   (error) => {

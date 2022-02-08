@@ -12,7 +12,7 @@ class Other extends React.Component<OtherProps, OtherState> {
   render() {
     return (
       <div>
-        <h1>OtherPage</h1>
+        <h1>帮助中心</h1>
       </div>
     )
   }

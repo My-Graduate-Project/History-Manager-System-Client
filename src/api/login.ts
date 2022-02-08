@@ -17,3 +17,7 @@ export function registerUser(userInfo: any) {
 export function loginUser(userInfo: any) {
   return request('/login', 'post', userInfo);
 }
+
+export function userInfo() {
+  return request('/personal', 'post');
+}
