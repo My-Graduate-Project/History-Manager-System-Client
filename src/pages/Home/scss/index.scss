@@ -35,6 +35,11 @@
   background: rgb(161, 139, 100);
 }
 
+.ant-descriptions {
+  width: 300px;
+  float: left;
+}
+
 .ant-descriptions-item-label {
   line-height: 64px;
   margin-left: 30px;
@@ -44,4 +49,9 @@
 
 .ant-descriptions-middle .ant-descriptions-row > td {
   padding: 0;
+}
+
+.ant-btn {
+  margin-right: 30px;
+  margin-top: 16px;
 }

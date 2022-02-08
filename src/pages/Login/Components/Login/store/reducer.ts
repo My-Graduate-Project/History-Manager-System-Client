@@ -1,5 +1,6 @@
 // 引入 constants type 类型
 import { USER_LOGIN } from "./constants"
+import isEmpty from 'lodash/isEmpty';
 
 // 初始化数据
 const initialState = {
@@ -13,7 +14,7 @@ const reducer = (state = initialState, action: any) => {
     case USER_LOGIN:
       return {
         ...state,
-        isAuth: action.payload !== null,
+        isAuth: !isEmpty(action.data),
         userInfo: action.data
       }
     default:

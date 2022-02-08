@@ -67,7 +67,7 @@ class HomePage extends Component<HomePageProps, HomePageState> {
             {/* 顶部导航栏 */}
             <Header className="site-layout-background" style={{ padding: 0 }}>
               {/* 用户信息 */}
-              <PersonalInfo></PersonalInfo>
+              <PersonalInfo {...this.props}></PersonalInfo>
             </Header>
             {/* 单页面切换 */}
             <Switch>

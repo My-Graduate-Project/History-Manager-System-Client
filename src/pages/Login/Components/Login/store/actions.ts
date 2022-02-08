@@ -23,3 +23,13 @@ export const loginStatus = (data: any) => {
     data: data
   }
 }
+
+// 用户退出
+export const logout = () => {
+  return (dispatch: any) => {
+    // 清除token
+    localStorage.removeItem('@#@TOKEN');
+    // 清除用户信息
+    dispatch(loginStatus({}))
+  }
+}
