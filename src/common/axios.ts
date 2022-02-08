@@ -25,10 +25,12 @@ _axios.interceptors.request.use(
     if (passUrl.includes(config.url)) return config;
     // 获取 token
     const token = localStorage.getItem("@#@TOKEN");
+    // 判断受否携带了 Token
     if (token) {
       config.headers.Authorization = `Bearer ${token}`;
     } else {
-      window.location.href = "/login"
+      // 未携带 token 则跳转到登录页面
+      window.location.href = "/"
     }
     return config;
   },

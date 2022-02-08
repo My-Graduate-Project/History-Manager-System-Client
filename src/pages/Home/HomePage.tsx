@@ -11,8 +11,11 @@ import { Switch, Route, HashRouter } from 'react-router-dom'
 
 // 导入组件
 import HomeSiderBar from './Components/HomeSiderBar'
-import Other from '@/pages/Others/OtherPage'
 import PersonalInfo from './Components/PersonInfo'
+// 首页组件
+import HomeContent from './Components/HomeContent'
+// 帮助中心组件
+import Other from '@/pages/Others/OtherPage'
 
 // scss
 import './scss/index.scss'
@@ -73,7 +76,7 @@ class HomePage extends Component<HomePageProps, HomePageState> {
             <Switch>
               {/* 首页详情部分 */}
               <Route path="/home">
-                <Content>首页详情</Content>
+                <HomeContent></HomeContent>
               </Route>
               {/* 帮助中心部分 */}
               <Route path="/helpCenter">

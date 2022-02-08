@@ -16,7 +16,8 @@ import { userInfo } from '@/api/login'
 //store
 import { logout } from '@/pages/Login/Components/Login/store/actions'
 
-import { Descriptions, Button } from 'antd'
+import { Descriptions, Button, Input } from 'antd'
+const { Search } = Input
 
 class PersonalInfo extends Component<PersonalInfoProps, PersonalInfoState> {
   constructor(props: PersonalInfoProps) {
@@ -40,6 +41,8 @@ class PersonalInfo extends Component<PersonalInfoProps, PersonalInfoState> {
     this.props.logout()
     this.props.history.push('/')
   }
+  // 搜索
+  onSearch = (value: any) => console.log(value)
   render() {
     const { username } = this.state
     return (
@@ -49,8 +52,15 @@ class PersonalInfo extends Component<PersonalInfoProps, PersonalInfoState> {
             {username}
           </Descriptions.Item>
         </Descriptions>
+        {/* 搜索栏 */}
+        <Search
+          placeholder="input search text"
+          style={{ float: 'left' }}
+          onSearch={this.onSearch}
+          enterButton
+        />
         {/* 用户退出 */}
-        <Button onClick={this.handleLogout} style={{ float: 'right' }} danger>
+        <Button className="logout" onClick={this.handleLogout} style={{ float: 'right' }} danger>
           退出登录
         </Button>
       </React.Fragment>
