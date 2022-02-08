@@ -5,7 +5,6 @@ import { RouteConfig } from 'react-router-config';
 // 动态加载组件
 const Home = loadable(() => import('@/pages/Home/HomePage'))// 首页
 const Login = loadable(() => import('@/pages/Login/LoginPage'))// 首页
-const Other = loadable(() => import("@/pages/Others/OtherPage")) // 其他
 
 // 路由配置
 const routes: RouteConfig[] = [
@@ -15,7 +14,7 @@ const routes: RouteConfig[] = [
         component: Login,
     },
     {
-        path: '/home',
+        path: '/history',
         exact: true,
         component: Home,
     }

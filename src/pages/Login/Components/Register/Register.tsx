@@ -52,7 +52,7 @@ class Register extends Component<RegisterProps, RegisterState> {
     // 注册成功
     // console.log(this.props)
     // 跳转到主页页面
-    this.props.history.push('/home')
+    this.props.history.push('/history')
     message.success('注册成功')
   }
   // onChange

@@ -11,9 +11,13 @@ import {
   DatabaseOutlined,
   EditOutlined,
   AreaChartOutlined,
+  FormatPainterOutlined,
+  BookOutlined,
+  CodeSandboxOutlined,
+  DeploymentUnitOutlined,
   HistoryOutlined,
+  TeamOutlined,
   AppstoreOutlined,
-  FundViewOutlined,
   ContactsOutlined,
   SafetyOutlined,
   UserOutlined,
@@ -41,7 +45,7 @@ class HomeSiderBar extends React.Component<HomeSiderBarProps, HomeSiderBarState>
         <Menu theme="dark" mode="inline" defaultSelectedKeys={['1']}>
           {/* 首页详情 */}
           <Menu.Item key="1" icon={<HomeOutlined />}>
-            首页详情
+            <Link to="/home">首页详情</Link>
           </Menu.Item>
           {/* 文章页详情 */}
           <SubMenu key="subArtitle" icon={<SnippetsOutlined />} title="文章详情">
@@ -58,16 +62,58 @@ class HomeSiderBar extends React.Component<HomeSiderBarProps, HomeSiderBarState>
               文章详细内容
             </Menu.Item>
           </SubMenu>
-          {/* 展品展示详情 */}
-          <SubMenu key="subExhibits" icon={<HistoryOutlined />} title="展品展示">
-            <Menu.Item key="subExhibits1" icon={<AppstoreOutlined />}>
-              展品详情列表
+          {/* 展品画作详情 */}
+          <SubMenu key="subArtwork" icon={<FormatPainterOutlined />} title="画作展示">
+            <Menu.Item key="subArtwork1" icon={<AppstoreOutlined />}>
+              画作详情列表
             </Menu.Item>
-            <Menu.Item key="subExhibits2" icon={<EditOutlined />}>
-              发布展品信息
+            <Menu.Item key="subArtwork2" icon={<EditOutlined />}>
+              发布画作信息
             </Menu.Item>
-            <Menu.Item key="subExhibits3" icon={<FundViewOutlined />}>
-              查看展品预览
+          </SubMenu>
+          {/* 历史古籍展示 */}
+          <SubMenu key="subIncunabula" icon={<BookOutlined />} title="古籍展示">
+            <Menu.Item key="subIncunabula1" icon={<AppstoreOutlined />}>
+              古籍详情列表
+            </Menu.Item>
+            <Menu.Item key="subIncunabula2" icon={<EditOutlined />}>
+              发布古籍信息
+            </Menu.Item>
+          </SubMenu>
+          {/* 历史帝国展示 */}
+          <SubMenu key="subEmpire" icon={<CodeSandboxOutlined />} title="帝国展示">
+            <Menu.Item key="subEmpire1" icon={<AppstoreOutlined />}>
+              帝国详情列表
+            </Menu.Item>
+            <Menu.Item key="subEmpire2" icon={<EditOutlined />}>
+              发布帝国信息
+            </Menu.Item>
+          </SubMenu>
+          {/* 历史战争展示 */}
+          <SubMenu key="subWar" icon={<DeploymentUnitOutlined />} title="战争展示">
+            <Menu.Item key="subWar1" icon={<AppstoreOutlined />}>
+              战争详情列表
+            </Menu.Item>
+            <Menu.Item key="subWar2" icon={<EditOutlined />}>
+              发布战争信息
+            </Menu.Item>
+          </SubMenu>
+          {/* 历史古迹展示 */}
+          <SubMenu key="subSite" icon={<HistoryOutlined />} title="古迹展示">
+            <Menu.Item key="subSite1" icon={<AppstoreOutlined />}>
+              古迹详情列表
+            </Menu.Item>
+            <Menu.Item key="subSite2" icon={<EditOutlined />}>
+              发布古迹信息
+            </Menu.Item>
+          </SubMenu>
+          {/* 历史人物展示 */}
+          <SubMenu key="subPerson" icon={<TeamOutlined />} title="人物展示">
+            <Menu.Item key="subPerson1" icon={<AppstoreOutlined />}>
+              人物详情列表
+            </Menu.Item>
+            <Menu.Item key="subPerson2" icon={<EditOutlined />}>
+              发布人物信息
             </Menu.Item>
           </SubMenu>
           {/* 角色管理 */}

@@ -68,6 +68,10 @@ class HomePage extends Component<HomePageProps, HomePageState> {
             </Header>
             {/* 单页面切换 */}
             <Switch>
+              {/* 首页详情部分 */}
+              <Route path="/home">
+                <Content>content</Content>
+              </Route>
               {/* 帮助中心部分 */}
               <Route path="/helpCenter">
                 <Other></Other>

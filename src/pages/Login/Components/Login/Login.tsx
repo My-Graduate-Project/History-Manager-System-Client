@@ -50,7 +50,7 @@ class Login extends Component<LoginProps, LoginState> {
 
       this.props.loginFn.loginStatus(decode(result.data.token))
       message.success(result.message)
-      return this.props.history.push('/home')
+      return this.props.history.push('/history')
     }
   }
   // onChange
