@@ -14,6 +14,8 @@ import HomeSiderBar from './Components/HomeSiderBar'
 import PersonalInfo from './Components/PersonInfo'
 // 首页组件
 import HomeContent from './Components/HomeContent'
+// 文章详情组件
+import ArticlePage from '@/pages/Articles/ArticleList/ArticlePage'
 // 帮助中心组件
 import Other from '@/pages/Others/OtherPage'
 
@@ -63,7 +65,7 @@ class HomePage extends Component<HomePageProps, HomePageState> {
             collapsed={this.state.collapsed}
           >
             {/* 侧边栏 */}
-            <HomeSiderBar />
+            <HomeSiderBar {...this.props} />
           </Sider>
           {/* 右侧 信息展示栏 */}
           <Layout className="site-layout" style={{ marginLeft: 275 }}>
@@ -77,6 +79,11 @@ class HomePage extends Component<HomePageProps, HomePageState> {
               {/* 首页详情部分 */}
               <Route path="/home">
                 <HomeContent></HomeContent>
+              </Route>
+              {/* 文章详情部分 */}
+              <Route path="/article">
+                {/* 文章列表展示 */}
+                <ArticlePage></ArticlePage>
               </Route>
               {/* 帮助中心部分 */}
               <Route path="/helpCenter">
