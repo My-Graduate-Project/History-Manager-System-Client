@@ -4,8 +4,10 @@ import { Component } from 'react'
 // scss
 import './scss/index.scss'
 
+import { Link } from 'react-router-dom'
+
 // antd
-import { Layout, Tabs, Table, Tag, Space, Pagination } from 'antd'
+import { Layout, Breadcrumb, Tabs, Table, Tag, Space, Pagination } from 'antd'
 const { Content } = Layout
 const { TabPane } = Tabs
 
@@ -13,33 +15,44 @@ interface ArticlePageProps {}
 
 interface ArticlePageState {}
 
+// 定义表格列
 const columns = [
+  // 作者姓名
   {
-    title: 'Name',
-    dataIndex: 'name',
-    key: 'name',
-    render: (text) => <a>{text}</a>
+    title: '作者',
+    dataIndex: 'author',
+    key: 'author',
+    render: (text: string) => <a>{text}</a>
   },
+  // 发布时间
   {
-    title: 'Age',
-    dataIndex: 'age',
-    key: 'age'
+    title: '发布时间',
+    dataIndex: 'updateTime',
+    key: 'updateTime'
   },
+  // 文章标题
   {
-    title: 'Address',
-    dataIndex: 'address',
-    key: 'address'
+    title: '标题',
+    dataIndex: 'title',
+    key: 'title'
   },
+  // 标签 -- 展示文章状态
   {
     title: 'Tags',
     key: 'tags',
     dataIndex: 'tags',
-    render: (tags) => (
+    render: (tags: string[]) => (
       <>
         {tags.map((tag) => {
-          let color = tag.length > 5 ? 'geekblue' : 'green'
-          if (tag === 'loser') {
-            color = 'volcano'
+          let color
+          if (tag === '已通过') {
+            color = 'blue'
+          }
+          if (tag === '审核中') {
+            color = 'green'
+          }
+          if (tag === '未通过') {
+            color = 'red'
           }
           return (
             <Tag color={color} key={tag}>
@@ -49,40 +62,30 @@ const columns = [
         })}
       </>
     )
-  },
-  {
-    title: 'Action',
-    key: 'action',
-    render: (text, record) => (
-      <Space size="middle">
-        <a>Invite {record.name}</a>
-        <a>Delete</a>
-      </Space>
-    )
   }
 ]
-
+// 定义表格数据
 const data = [
   {
     key: '1',
-    name: 'John Brown',
-    age: 32,
-    address: 'New York No. 1 Lake Park',
-    tags: ['nice', 'developer']
+    author: 'John Brown',
+    updateTime: 32,
+    title: 'New York No. 1 Lake Park',
+    tags: ['已通过']
   },
   {
     key: '2',
-    name: 'Jim Green',
-    age: 42,
-    address: 'London No. 1 Lake Park',
-    tags: ['loser']
+    author: 'Jim Green',
+    updateTime: 42,
+    title: 'London No. 1 Lake Park',
+    tags: ['审核中']
   },
   {
     key: '3',
-    name: 'Joe Black',
-    age: 32,
-    address: 'Sidney No. 1 Lake Park',
-    tags: ['cool', 'teacher']
+    author: 'Joe Black',
+    updateTime: 32,
+    title: 'Sidney No. 1 Lake Park',
+    tags: ['未通过']
   }
 ]
 
@@ -98,6 +101,13 @@ class ArticlePage extends Component<ArticlePageProps, ArticlePageState> {
   render() {
     return (
       <div>
+        {/* 面包屑 */}
+        <Breadcrumb className="bread">
+          <Breadcrumb.Item>文章详情</Breadcrumb.Item>
+          <Breadcrumb.Item>
+            <Link to="/article">文章管理</Link>
+          </Breadcrumb.Item>
+        </Breadcrumb>
         {/* 展示文章状态 */}
         <Content
           className="site-content"

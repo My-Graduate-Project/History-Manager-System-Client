@@ -16,6 +16,7 @@ import PersonalInfo from './Components/PersonInfo'
 import HomeContent from './Components/HomeContent'
 // 文章详情组件
 import ArticlePage from '@/pages/Articles/ArticleList/ArticlePage'
+import ArticleManager from '@/pages/Articles/ArticleManager/ArticleManager'
 // 帮助中心组件
 import Other from '@/pages/Others/OtherPage'
 
@@ -84,6 +85,10 @@ class HomePage extends Component<HomePageProps, HomePageState> {
               <Route path="/article">
                 {/* 文章列表展示 */}
                 <ArticlePage></ArticlePage>
+              </Route>
+              <Route path="/managerArt">
+                {/* 文章管理展示 */}
+                <ArticleManager></ArticleManager>
               </Route>
               {/* 帮助中心部分 */}
               <Route path="/helpCenter">

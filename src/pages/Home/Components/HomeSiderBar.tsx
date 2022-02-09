@@ -56,7 +56,7 @@ class HomeSiderBar extends Component<HomeSiderBarProps, HomeSiderBarState> {
               <Link to="/article">文章管理</Link>
             </Menu.Item>
             <Menu.Item key="subArtitle2" icon={<AlignCenterOutlined />}>
-              文章处理
+              <Link to="/managerArt">文章处理</Link>
             </Menu.Item>
             <Menu.Item key="subArtitle3" icon={<EditOutlined />}>
               写文章
