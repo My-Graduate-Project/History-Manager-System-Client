@@ -93,7 +93,7 @@ class HomePage extends Component<HomePageProps, HomePageState> {
               </Route>
               <Route path="/managerWrite">
                 {/* 文章管理展示 */}
-                <ArticleWrite></ArticleWrite>
+                <ArticleWrite {...this.props}></ArticleWrite>
               </Route>
               {/* 帮助中心部分 */}
               <Route path="/helpCenter">
