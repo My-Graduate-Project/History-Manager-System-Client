@@ -4,7 +4,7 @@ import { Component } from 'react'
 // antd
 import { Layout } from 'antd'
 
-const { Header, Sider, Content } = Layout
+const { Header, Sider } = Layout
 
 // react-router-dom
 import { Switch, Route, HashRouter } from 'react-router-dom'
@@ -17,6 +17,7 @@ import HomeContent from './Components/HomeContent'
 // 文章详情组件
 import ArticlePage from '@/pages/Articles/ArticleList/ArticlePage'
 import ArticleManager from '@/pages/Articles/ArticleManager/ArticleManager'
+import ArticleWrite from '@/pages/Articles/ArticleWrite/ArticleWrite'
 // 帮助中心组件
 import Other from '@/pages/Others/OtherPage'
 
@@ -89,6 +90,10 @@ class HomePage extends Component<HomePageProps, HomePageState> {
               <Route path="/managerArt">
                 {/* 文章管理展示 */}
                 <ArticleManager></ArticleManager>
+              </Route>
+              <Route path="/managerWrite">
+                {/* 文章管理展示 */}
+                <ArticleWrite></ArticleWrite>
               </Route>
               {/* 帮助中心部分 */}
               <Route path="/helpCenter">

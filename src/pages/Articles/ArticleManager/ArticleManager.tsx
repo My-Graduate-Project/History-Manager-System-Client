@@ -6,9 +6,23 @@ import './scss/index.scss'
 // axios
 import { userInfo } from '@/api/login'
 
-import { Layout, Breadcrumb, Tabs, Table, Tag, Space, Pagination, Button } from 'antd'
+import {
+  Layout,
+  Breadcrumb,
+  Tabs,
+  Table,
+  Tag,
+  Space,
+  Pagination,
+  Button,
+  Form,
+  Input,
+  DatePicker
+} from 'antd'
+import { relative } from 'path/posix'
 const { Content } = Layout
 const { TabPane } = Tabs
+const { RangePicker } = DatePicker
 
 interface ArtManagerProps {}
 
@@ -106,6 +120,9 @@ class ArtManager extends Component<ArtManagerProps, ArtManagerState> {
             >
               修改状态
             </Button>
+            <Button danger style={{ borderRadius: '20px' }}>
+              删除
+            </Button>
           </Space>
         )
       }
@@ -130,6 +147,20 @@ class ArtManager extends Component<ArtManagerProps, ArtManagerState> {
   handleClick = () => {
     console.log(this.state.status)
   }
+  onFinish = (fieldsValue: any) => {
+    console.log('Success:', fieldsValue)
+    const rangeValue = fieldsValue['range-picker']
+    const values = {
+      ...fieldsValue,
+      'range-picker': [rangeValue[0].format('YYYY-MM-DD'), rangeValue[1].format('YYYY-MM-DD')]
+    }
+    console.log('Received values of form: ', values)
+  }
+
+  onFinishFailed = (errorInfo: any) => {
+    console.log('Failed:', errorInfo)
+  }
+
   // 判断权限
   render() {
     return (
@@ -149,6 +180,46 @@ class ArtManager extends Component<ArtManagerProps, ArtManagerState> {
             padding: 32
           }}
         >
+          <Form
+            name="basic"
+            labelCol={{ span: 2 }}
+            wrapperCol={{ span: 8 }}
+            initialValues={{ remember: true }}
+            onFinish={this.onFinish}
+            onFinishFailed={this.onFinishFailed}
+            autoComplete="off"
+            style={{ position: 'relative' }}
+          >
+            <Form.Item
+              label="标题"
+              name="title"
+              rules={[{ required: true, message: '请输入查询文章标题' }]}
+            >
+              <Input style={{ borderRadius: '20px' }} />
+            </Form.Item>
+            <Form.Item
+              name="range-picker"
+              label="日期"
+              rules={[{ required: true, message: 'Please select time!' }]}
+              wrapperCol={{ span: 4 }}
+            >
+              <RangePicker style={{ borderRadius: '20px' }} />
+            </Form.Item>
+            <Button
+              type="primary"
+              style={{
+                position: 'absolute',
+                bottom: '30%',
+                right: '50%',
+                borderRadius: '20px',
+                width: '100px'
+              }}
+              htmlType="submit"
+            >
+              查询
+            </Button>
+          </Form>
+          {/* Tab 栏切换 */}
           <Tabs defaultActiveKey="1" onChange={this.callback}>
             <TabPane tab="全部文章" key="1">
               {/* 表格 */}
