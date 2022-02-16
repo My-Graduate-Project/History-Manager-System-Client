@@ -10,17 +10,16 @@ import 'react-markdown-editor-lite/lib/index.css'
 
 const mdParser = new MarkdownIt(/* Markdown-it options */)
 
-// Finish!
-function handleEditorChange({ html, text }) {
-  console.log('handleEditorChange', html, text)
-}
-
 // antd
-import { Layout, Breadcrumb, Row, Col, Input, Button, DatePicker } from 'antd'
+import { Layout, Breadcrumb, Row, Col, Input, Button, DatePicker, message } from 'antd'
 const { Content } = Layout
 const { TextArea } = Input
+// 请求
+import { addArticle } from '@/api/articles'
 
-interface ArticleWriteProps {}
+interface ArticleWriteProps {
+  history: any
+}
 
 interface ArticleWriteState {}
 
@@ -28,10 +27,61 @@ class ArticleWrite extends Component<ArticleWriteProps, ArticleWriteState> {
   constructor(props: ArticleWriteProps) {
     super(props)
   }
+  // 定义数据
   state = {
-    introducehtml: '等待编辑'
+    articleInfo: {
+      title: '',
+      description: '',
+      content: '',
+      category_id: 1,
+      views: 0,
+      article_status: 'auditing',
+      created_time: '',
+      is_deleted: 'false'
+    }
   }
-
+  // onChange 方法
+  handleChange = (e: React.FormEvent<HTMLFormElement>) => {
+    this.setState({
+      articleInfo: {
+        ...this.state.articleInfo,
+        [e.target.name]: e.target.value
+      }
+    })
+  }
+  // 内容的改变
+  handleEditorChange = ({ html }) => {
+    // console.log(typeof html)
+    this.setState({
+      articleInfo: {
+        ...this.state.articleInfo,
+        content: html
+      }
+    })
+  }
+  // 日期的改变
+  handleChangeData = (date: any, dateString: string) => {
+    this.setState({
+      articleInfo: {
+        ...this.state.articleInfo,
+        created_time: dateString
+      }
+    })
+  }
+  // handleAddArticle 添加文章
+  handleAddArticle = async () => {
+    // console.log(this.state.articleInfo)
+    await addArticle(this.state.articleInfo).then((res) => {
+      console.log(res)
+      if (res.code == 200) {
+        // 跳转到展示页
+        this.props.history.push('/history#/article')
+      } else {
+        message.error(res.msg)
+      }
+    })
+  }
+  // 渲染
   render() {
     return (
       <div>
@@ -58,7 +108,12 @@ class ArticleWrite extends Component<ArticleWriteProps, ArticleWriteState> {
                 {/* 标题行 */}
                 <Row gutter={10}>
                   <Col span={24}>
-                    <Input placeholder="博客标题" size="large" />
+                    <Input
+                      name="title"
+                      onChange={this.handleChange}
+                      placeholder="博客标题"
+                      size="large"
+                    />
                   </Col>
                 </Row>
                 <br />
@@ -67,9 +122,9 @@ class ArticleWrite extends Component<ArticleWriteProps, ArticleWriteState> {
                   <Col span={24}>
                     <MdEditor
                       className="markdown-content"
+                      onChange={this.handleEditorChange}
                       style={{ height: '630px' }}
                       renderHTML={(text) => mdParser.render(text)}
-                      onChange={handleEditorChange}
                     />
                   </Col>
                 </Row>
@@ -79,7 +134,12 @@ class ArticleWrite extends Component<ArticleWriteProps, ArticleWriteState> {
                 <Row>
                   {/* 发布文章按钮 */}
                   <Col span={24}>
-                    <Button type="primary" size="large">
+                    <Button
+                      style={{ borderRadius: '20px', width: '200px' }}
+                      onClick={this.handleAddArticle}
+                      type="primary"
+                      size="large"
+                    >
                       发布文章
                     </Button>
                     <br />
@@ -89,20 +149,21 @@ class ArticleWrite extends Component<ArticleWriteProps, ArticleWriteState> {
                     <br />
                     <TextArea
                       rows={4}
-                      // value={introducemd}
-                      // onChange={changeIntroduce}
-                      // onPressEnter={changeIntroduce}
+                      name="description"
+                      onChange={this.handleChange}
                       placeholder="文章简介"
                     />
-                    <div
-                      className="introduce-html"
-                      dangerouslySetInnerHTML={{ __html: '文章简介：' + this.state.introducehtml }}
-                    ></div>
                   </Col>
                   {/* 发布日期 */}
-                  <Col span={12}>
+                  <Col span={24}>
                     <div className="date-select">
-                      <DatePicker placeholder="发布日期" size="large" />
+                      <DatePicker
+                        style={{ borderRadius: '20px', width: '100%' }}
+                        name="created_time"
+                        onChange={this.handleChangeData}
+                        placeholder="发布日期"
+                        size="large"
+                      />
                     </div>
                   </Col>
                 </Row>
