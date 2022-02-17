@@ -31,6 +31,7 @@ import { Link } from 'react-router-dom'
 
 interface HomeSiderBarProps {
   history: any
+  location: any
 }
 
 interface HomeSiderBarState {}
@@ -39,12 +40,43 @@ class HomeSiderBar extends Component<HomeSiderBarProps, HomeSiderBarState> {
   constructor(props: HomeSiderBarProps) {
     super(props)
   }
-
+  state = {
+    openKeys: [''],
+    defaultSelectedKeys: ['1']
+  }
+  componentDidMount() {
+    // 获取当前路由
+    const { history, location } = this.props
+    // console.log(history)
+    // 获取当前所在目录层级
+    const pathSnippets = history.location.hash.split('#')
+    switch (pathSnippets.length) {
+      case 2:
+        this.setState({
+          openKeys: [pathSnippets[1]]
+        })
+        break
+      default:
+        break
+    }
+  }
+  //
+  handleOpenChange = (openKeys: any) => {
+    this.setState({
+      openKeys: openKeys
+    })
+  }
   render() {
     return (
       <React.Fragment>
         <div className="logo" />
-        <Menu theme="dark" mode="inline" defaultSelectedKeys={['1']}>
+        <Menu
+          theme="dark"
+          mode="inline"
+          openKeys={this.state.openKeys}
+          onOpenChange={this.handleOpenChange}
+          defaultSelectedKeys={this.state.defaultSelectedKeys}
+        >
           {/* 首页详情 */}
           <Menu.Item key="1" icon={<HomeOutlined />}>
             <Link to="/home">首页详情</Link>

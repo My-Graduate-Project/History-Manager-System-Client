@@ -14,7 +14,6 @@ class articleClass {
   views: number
   article_status: string
   create_time: string
-  is_deleted: string
 }
 export function addArticle(articleInfo: articleClass) {
   return request('/addArticle', 'post', articleInfo);
@@ -26,4 +25,13 @@ export function addArticle(articleInfo: articleClass) {
  */
 export function showArticleList() {
   return request('/showArticleList', 'post', { pageNum: 0, pageSize: 7 });
+}
+
+/** 删除文章
+ * 
+ * @param id Number
+ * @returns 
+ */
+export function removeSingleArticle(id: number) {
+  return request('/removeArticle', 'post', { id: id });
 }

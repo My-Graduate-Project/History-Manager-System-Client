@@ -85,11 +85,11 @@ class HomePage extends Component<HomePageProps, HomePageState> {
               {/* 文章详情部分 */}
               <Route path="/article">
                 {/* 文章列表展示 */}
-                <ArticlePage></ArticlePage>
+                <ArticlePage {...this.props}></ArticlePage>
               </Route>
               <Route path="/managerArt">
                 {/* 文章管理展示 */}
-                <ArticleManager></ArticleManager>
+                <ArticleManager {...this.props}></ArticleManager>
               </Route>
               <Route path="/managerWrite">
                 {/* 文章管理展示 */}

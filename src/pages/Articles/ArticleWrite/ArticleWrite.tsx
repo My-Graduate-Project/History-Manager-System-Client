@@ -36,8 +36,7 @@ class ArticleWrite extends Component<ArticleWriteProps, ArticleWriteState> {
       category_id: 1,
       views: 0,
       article_status: 'auditing',
-      created_time: '',
-      is_deleted: 'false'
+      created_time: ''
     }
   }
   // onChange 方法
@@ -75,7 +74,8 @@ class ArticleWrite extends Component<ArticleWriteProps, ArticleWriteState> {
       console.log(res)
       if (res.code == 200) {
         // 跳转到展示页
-        this.props.history.push('/history#/article')
+        console.log(this.props)
+        this.props.history.push('/history#/managerArt')
       } else {
         message.error(res.msg)
       }
@@ -136,7 +136,7 @@ class ArticleWrite extends Component<ArticleWriteProps, ArticleWriteState> {
                   <Col span={24}>
                     <Button
                       style={{ borderRadius: '20px', width: '200px' }}
-                      onClick={this.handleAddArticle}
+                      onClick={this.handleAddArticle.bind(this)}
                       type="primary"
                       size="large"
                     >

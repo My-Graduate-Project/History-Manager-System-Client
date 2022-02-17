@@ -19,14 +19,15 @@ import {
   Input,
   DatePicker,
   Row,
-  Col
+  Col,
+  message
 } from 'antd'
 const { Content } = Layout
 const { TabPane } = Tabs
 const { RangePicker } = DatePicker
 
 // 请求
-import { showArticleList } from '@/api/articles'
+import { showArticleList, removeSingleArticle } from '@/api/articles'
 
 interface ArtManagerProps {}
 
@@ -71,10 +72,13 @@ class ArtManager extends Component<ArtManagerProps, ArtManagerState> {
             return <Tag color="green">已发布</Tag>
           }
           if (text === 'fail') {
-            return <Tag color="red">未通过</Tag>
+            return <Tag color="blue">未通过</Tag>
           }
           if (text === 'auditing') {
             return <Tag color="orange">待审核</Tag>
+          }
+          if (text === 'delete') {
+            return <Tag color="red">已删除</Tag>
           }
         }
       },
@@ -91,7 +95,7 @@ class ArtManager extends Component<ArtManagerProps, ArtManagerState> {
             >
               修改状态
             </Button>
-            <Button danger style={{ borderRadius: '20px' }}>
+            <Button danger style={{ borderRadius: '20px' }} onClick={this.handleRemove}>
               删除
             </Button>
           </Space>
@@ -104,6 +108,7 @@ class ArtManager extends Component<ArtManagerProps, ArtManagerState> {
     passData: [],
     failData: [],
     auditingData: [],
+    isDeleteData: [],
     // 定义分页
     count: 0,
     pageNum: 0,
@@ -127,13 +132,14 @@ class ArtManager extends Component<ArtManagerProps, ArtManagerState> {
   // 获取文章列表数据
   getArticleList = async () => {
     const result = await showArticleList()
-    result.data.forEach((item: { key: any; id: any }) => {
-      item.key = item.id
+    result.data.forEach((item: { key: any; id: any }, index: number) => {
+      item.key = `${item.id}`
     })
     this.setState({
       data: result.data,
       count: result.data.length
     })
+    // 分类数据
     const passData = result.data.filter((item: { article_status: any }) => {
       return item.article_status === 'pass'
     })
@@ -143,10 +149,14 @@ class ArtManager extends Component<ArtManagerProps, ArtManagerState> {
     const auditingData = result.data.filter((item: { article_status: any }) => {
       return item.article_status === 'auditing'
     })
+    const isDeleteData = result.data.filter((item: { is_deleted: any }) => {
+      return item.article_status === 'delete'
+    })
     this.setState({
       passData: passData,
       failData: failData,
-      auditingData: auditingData
+      auditingData: auditingData,
+      isDeleteData: isDeleteData
     })
   }
   //转换时间格式
@@ -156,17 +166,7 @@ class ArtManager extends Component<ArtManagerProps, ArtManagerState> {
     }
     let d = new Date(datetime)
     let formatdatetime =
-      d.getFullYear() +
-      '-' +
-      addDateZero(d.getMonth() + 1) +
-      '-' +
-      addDateZero(d.getDate()) +
-      ' ' +
-      addDateZero(d.getHours()) +
-      ':' +
-      addDateZero(d.getMinutes()) +
-      ':' +
-      addDateZero(d.getSeconds())
+      d.getFullYear() + '-' + addDateZero(d.getMonth() + 1) + '-' + addDateZero(d.getDate())
     return formatdatetime
   }
   // list callback
@@ -176,6 +176,15 @@ class ArtManager extends Component<ArtManagerProps, ArtManagerState> {
   // 点击触发事件
   handleClick = () => {
     console.log(this.state.status)
+  }
+  // 删除文章
+  handleRemove = async (e: any) => {
+    const id =
+      e.target.parentNode.parentNode.parentNode.parentNode.parentNode.getAttribute('data-row-key')
+    const result = await removeSingleArticle(id)
+    if (result.code === 200) {
+      message.success(result.msg)
+    }
   }
   // 日期变化
   onFinish = (fieldsValue: any) => {
@@ -261,7 +270,7 @@ class ArtManager extends Component<ArtManagerProps, ArtManagerState> {
               {/* 表格 */}
               <Table
                 columns={this.state.columns}
-                rowKey={this.state.data.id}
+                // rowKey={this.state.data.id}
                 dataSource={this.state.data}
                 pagination={{
                   total: this.state.data.length,
@@ -304,6 +313,19 @@ class ArtManager extends Component<ArtManagerProps, ArtManagerState> {
                 dataSource={this.state.failData}
                 pagination={{
                   total: this.state.failData.length,
+                  pageSize: 5,
+                  onChange: this.getPagination
+                }}
+              />
+            </TabPane>
+            <TabPane tab="已删除" key="5">
+              {/* 表格 */}
+              <Table
+                columns={this.state.columns}
+                rowKey={this.state.data.id}
+                dataSource={this.state.isDeleteData}
+                pagination={{
+                  total: this.state.isDeleteData.length,
                   pageSize: 5,
                   onChange: this.getPagination
                 }}
