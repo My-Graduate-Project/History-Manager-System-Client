@@ -68,7 +68,7 @@ class ArtManager extends Component<ArtManagerProps, ArtManagerState> {
         dataIndex: 'article_status',
         render: (text: string) => {
           if (text === 'pass') {
-            return <Tag color="green">已通过</Tag>
+            return <Tag color="green">已发布</Tag>
           }
           if (text === 'fail') {
             return <Tag color="red">未通过</Tag>
@@ -100,6 +100,10 @@ class ArtManager extends Component<ArtManagerProps, ArtManagerState> {
     ],
     // 定义表格数据
     data: [],
+    //
+    passData: [],
+    failData: [],
+    auditingData: [],
     // 定义分页
     count: 0,
     pageNum: 0,
@@ -130,7 +134,20 @@ class ArtManager extends Component<ArtManagerProps, ArtManagerState> {
       data: result.data,
       count: result.data.length
     })
-    console.log(this.state.count)
+    const passData = result.data.filter((item: { article_status: any }) => {
+      return item.article_status === 'pass'
+    })
+    const failData = result.data.filter((item: { article_status: any }) => {
+      return item.article_status === 'fail'
+    })
+    const auditingData = result.data.filter((item: { article_status: any }) => {
+      return item.article_status === 'auditing'
+    })
+    this.setState({
+      passData: passData,
+      failData: failData,
+      auditingData: auditingData
+    })
   }
   //转换时间格式
   formateDate = (datetime: string | number | Date) => {
@@ -173,6 +190,9 @@ class ArtManager extends Component<ArtManagerProps, ArtManagerState> {
     console.log('Failed:', errorInfo)
   }
   // 分页
+  getPagination = async (page: number, pageSize: number) => {
+    console.log(page, pageSize)
+  }
   // 判断权限
   render() {
     return (
@@ -245,18 +265,49 @@ class ArtManager extends Component<ArtManagerProps, ArtManagerState> {
                 dataSource={this.state.data}
                 pagination={{
                   total: this.state.data.length,
-                  pageSize: 5
+                  pageSize: 5,
+                  onChange: this.getPagination
                 }}
               />
             </TabPane>
             <TabPane tab="已发布" key="2">
-              Content of Tab Pane 2
+              {/* 表格 */}
+              <Table
+                columns={this.state.columns}
+                rowKey={this.state.data.id}
+                dataSource={this.state.passData}
+                pagination={{
+                  total: this.state.passData.length,
+                  pageSize: 5,
+                  onChange: this.getPagination
+                }}
+              />
             </TabPane>
             <TabPane tab="审核中" key="3">
-              Content of Tab Pane 3
+              {/* 表格 */}
+              <Table
+                columns={this.state.columns}
+                rowKey={this.state.data.id}
+                dataSource={this.state.auditingData}
+                pagination={{
+                  total: this.state.auditingData.length,
+                  pageSize: 5,
+                  onChange: this.getPagination
+                }}
+              />
             </TabPane>
             <TabPane tab="未通过" key="4">
-              Content of Tab Pane 4
+              {/* 表格 */}
+              <Table
+                columns={this.state.columns}
+                rowKey={this.state.data.id}
+                dataSource={this.state.failData}
+                pagination={{
+                  total: this.state.failData.length,
+                  pageSize: 5,
+                  onChange: this.getPagination
+                }}
+              />
             </TabPane>
           </Tabs>
         </Content>
