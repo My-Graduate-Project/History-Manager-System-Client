@@ -1,10 +1,11 @@
 import request from "../common/axios"
 
-/** 用户注册信息
+/** 用户添加文章
  * 
  * @param userInfo { Object }
  * @returns 
  */
+// 定义获取过来的数据类型
 class articleClass {
   title: string
   description: string
@@ -17,4 +18,12 @@ class articleClass {
 }
 export function addArticle(articleInfo: articleClass) {
   return request('/addArticle', 'post', articleInfo);
+}
+
+/** 展示用户文章列表
+ * 
+ * @returns 
+ */
+export function showArticleList() {
+  return request('/showArticleList', 'post', { pageNum: 0, pageSize: 7 });
 }

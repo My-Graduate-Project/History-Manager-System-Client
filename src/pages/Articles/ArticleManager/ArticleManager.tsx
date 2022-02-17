@@ -17,39 +17,20 @@ import {
   Button,
   Form,
   Input,
-  DatePicker
+  DatePicker,
+  Row,
+  Col
 } from 'antd'
 const { Content } = Layout
 const { TabPane } = Tabs
 const { RangePicker } = DatePicker
 
+// 请求
+import { showArticleList } from '@/api/articles'
+
 interface ArtManagerProps {}
 
 interface ArtManagerState {}
-
-const data = [
-  {
-    key: '1',
-    author: 'John Brown',
-    updateTime: 32,
-    title: 'New York No. 1 Lake Park',
-    tags: ['已通过']
-  },
-  {
-    key: '2',
-    author: 'Jim Green',
-    updateTime: 42,
-    title: 'London No. 1 Lake Park',
-    tags: ['审核中']
-  },
-  {
-    key: '3',
-    author: 'Joe Black',
-    updateTime: 32,
-    title: 'Sidney No. 1 Lake Park',
-    tags: ['未通过']
-  }
-]
 
 class ArtManager extends Component<ArtManagerProps, ArtManagerState> {
   constructor(props: ArtManagerProps) {
@@ -63,15 +44,16 @@ class ArtManager extends Component<ArtManagerProps, ArtManagerState> {
       // 作者姓名
       {
         title: '作者',
-        dataIndex: 'author',
-        key: 'author',
+        dataIndex: 'user_name',
+        key: 'user_name',
         render: (text: string) => <a>{text}</a>
       },
       // 发布时间
       {
         title: '发布时间',
-        dataIndex: 'updateTime',
-        key: 'updateTime'
+        dataIndex: 'created_time',
+        key: 'created_time',
+        render: (text: string) => <a>{this.formateDate(text)}</a>
       },
       // 文章标题
       {
@@ -81,30 +63,20 @@ class ArtManager extends Component<ArtManagerProps, ArtManagerState> {
       },
       // 标签 -- 展示文章状态
       {
-        title: 'Tags',
-        key: 'tags',
-        dataIndex: 'tags',
-        render: (tags: string[]) => (
-          <>
-            {tags.map((tag) => {
-              let color
-              if (tag === '已通过') {
-                color = 'blue'
-              }
-              if (tag === '审核中') {
-                color = 'green'
-              }
-              if (tag === '未通过') {
-                color = 'red'
-              }
-              return (
-                <Tag color={color} key={tag}>
-                  {tag.toUpperCase()}
-                </Tag>
-              )
-            })}
-          </>
-        )
+        title: '标签',
+        key: 'article_status',
+        dataIndex: 'article_status',
+        render: (text: string) => {
+          if (text === 'pass') {
+            return <Tag color="green">已通过</Tag>
+          }
+          if (text === 'fail') {
+            return <Tag color="red">未通过</Tag>
+          }
+          if (text === 'auditing') {
+            return <Tag color="orange">待审核</Tag>
+          }
+        }
       },
       {
         title: 'Action',
@@ -125,8 +97,15 @@ class ArtManager extends Component<ArtManagerProps, ArtManagerState> {
           </Space>
         )
       }
-    ]
+    ],
+    // 定义表格数据
+    data: [],
+    // 定义分页
+    count: 0,
+    pageNum: 0,
+    pageSize: 3
   }
+  // 初始化
   // 获取用户信息
   getUserInfo = async () => {
     const result = await userInfo()
@@ -136,7 +115,42 @@ class ArtManager extends Component<ArtManagerProps, ArtManagerState> {
     })
   }
   componentDidMount() {
+    // 用户信息
     this.getUserInfo()
+    // 文章列表
+    this.getArticleList()
+  }
+  // 获取文章列表数据
+  getArticleList = async () => {
+    const result = await showArticleList()
+    result.data.forEach((item: { key: any; id: any }) => {
+      item.key = item.id
+    })
+    this.setState({
+      data: result.data,
+      count: result.data.length
+    })
+    console.log(this.state.count)
+  }
+  //转换时间格式
+  formateDate = (datetime: string | number | Date) => {
+    function addDateZero(num) {
+      return num < 10 ? '0' + num : num
+    }
+    let d = new Date(datetime)
+    let formatdatetime =
+      d.getFullYear() +
+      '-' +
+      addDateZero(d.getMonth() + 1) +
+      '-' +
+      addDateZero(d.getDate()) +
+      ' ' +
+      addDateZero(d.getHours()) +
+      ':' +
+      addDateZero(d.getMinutes()) +
+      ':' +
+      addDateZero(d.getSeconds())
+    return formatdatetime
   }
   // list callback
   callback = (key: string) => {
@@ -146,6 +160,7 @@ class ArtManager extends Component<ArtManagerProps, ArtManagerState> {
   handleClick = () => {
     console.log(this.state.status)
   }
+  // 日期变化
   onFinish = (fieldsValue: any) => {
     console.log('Success:', fieldsValue)
     const rangeValue = fieldsValue['range-picker']
@@ -153,13 +168,11 @@ class ArtManager extends Component<ArtManagerProps, ArtManagerState> {
       ...fieldsValue,
       'range-picker': [rangeValue[0].format('YYYY-MM-DD'), rangeValue[1].format('YYYY-MM-DD')]
     }
-    console.log('Received values of form: ', values)
   }
-
   onFinishFailed = (errorInfo: any) => {
     console.log('Failed:', errorInfo)
   }
-
+  // 分页
   // 判断权限
   render() {
     return (
@@ -179,52 +192,62 @@ class ArtManager extends Component<ArtManagerProps, ArtManagerState> {
             padding: 32
           }}
         >
-          <Form
-            name="basic"
-            labelCol={{ span: 2 }}
-            wrapperCol={{ span: 8 }}
-            initialValues={{ remember: true }}
-            onFinish={this.onFinish}
-            onFinishFailed={this.onFinishFailed}
-            autoComplete="off"
-            style={{ position: 'relative' }}
-          >
-            <Form.Item
-              label="标题"
-              name="title"
-              rules={[{ required: true, message: '请输入查询文章标题' }]}
-            >
-              <Input style={{ borderRadius: '20px' }} />
-            </Form.Item>
-            <Form.Item
-              name="range-picker"
-              label="日期"
-              rules={[{ required: true, message: 'Please select time!' }]}
-              wrapperCol={{ span: 4 }}
-            >
-              <RangePicker style={{ borderRadius: '20px' }} />
-            </Form.Item>
-            <Button
-              type="primary"
-              style={{
-                position: 'absolute',
-                bottom: '30%',
-                right: '50%',
-                borderRadius: '20px',
-                width: '100px'
-              }}
-              htmlType="submit"
-            >
-              查询
-            </Button>
-          </Form>
+          {/* 查询部分 */}
+          <Row gutter={5}>
+            <Col span={24}>
+              <Form
+                name="basic"
+                labelCol={{ span: 2 }}
+                wrapperCol={{ span: 10 }}
+                initialValues={{ remember: true }}
+                onFinish={this.onFinish}
+                onFinishFailed={this.onFinishFailed}
+                autoComplete="off"
+                style={{ position: 'relative' }}
+              >
+                <Form.Item
+                  label="标题"
+                  name="title"
+                  rules={[{ required: true, message: '请输入查询文章标题' }]}
+                >
+                  <Input style={{ borderRadius: '20px' }} />
+                </Form.Item>
+                <Form.Item
+                  name="range-picker"
+                  label="日期"
+                  rules={[{ required: true, message: 'Please select time!' }]}
+                  wrapperCol={{ span: 4 }}
+                >
+                  <RangePicker style={{ borderRadius: '20px' }} />
+                </Form.Item>
+
+                <Button
+                  type="primary"
+                  style={{
+                    borderRadius: '20px',
+                    width: '100px'
+                  }}
+                  htmlType="submit"
+                >
+                  查询
+                </Button>
+              </Form>
+            </Col>
+          </Row>
+
           {/* Tab 栏切换 */}
           <Tabs defaultActiveKey="1" onChange={this.callback}>
             <TabPane tab="全部文章" key="1">
               {/* 表格 */}
-              <Table columns={this.state.columns} dataSource={data} pagination={false} />
-              {/* 分页 */}
-              <Pagination defaultCurrent={1} total={100} />
+              <Table
+                columns={this.state.columns}
+                rowKey={this.state.data.id}
+                dataSource={this.state.data}
+                pagination={{
+                  total: this.state.data.length,
+                  pageSize: 5
+                }}
+              />
             </TabPane>
             <TabPane tab="已发布" key="2">
               Content of Tab Pane 2
