@@ -35,3 +35,7 @@ export function showArticleList() {
 export function removeSingleArticle(id: number) {
   return request('/removeArticle', 'post', { id: id });
 }
+
+export function findArticle(title: string, start: string, end: string) {
+  return request('/findArticle', 'post', { title: title, dateStart: start, dateEnd: end });
+}

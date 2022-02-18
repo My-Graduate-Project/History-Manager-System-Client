@@ -13,7 +13,6 @@ import {
   Table,
   Tag,
   Space,
-  Pagination,
   Button,
   Form,
   Input,
@@ -27,7 +26,7 @@ const { TabPane } = Tabs
 const { RangePicker } = DatePicker
 
 // 请求
-import { showArticleList, removeSingleArticle } from '@/api/articles'
+import { showArticleList, removeSingleArticle, findArticle } from '@/api/articles'
 
 interface ArtManagerProps {}
 
@@ -187,13 +186,21 @@ class ArtManager extends Component<ArtManagerProps, ArtManagerState> {
     }
   }
   // 日期变化
-  onFinish = (fieldsValue: any) => {
+  onFinish = async (fieldsValue: any) => {
     console.log('Success:', fieldsValue)
     const rangeValue = fieldsValue['range-picker']
     const values = {
       ...fieldsValue,
-      'range-picker': [rangeValue[0].format('YYYY-MM-DD'), rangeValue[1].format('YYYY-MM-DD')]
+      date: [rangeValue[0].format('YYYY-MM-DD'), rangeValue[1].format('YYYY-MM-DD')]
     }
+    const result = await findArticle(values.title, values.date[0], values.date[1])
+    result.data.forEach((item: { key: any; id: any }, index: number) => {
+      item.key = `${item.id}`
+    })
+    this.setState({
+      data: result.data,
+      count: result.data.length
+    })
   }
   onFinishFailed = (errorInfo: any) => {
     console.log('Failed:', errorInfo)
@@ -230,7 +237,6 @@ class ArtManager extends Component<ArtManagerProps, ArtManagerState> {
                 wrapperCol={{ span: 10 }}
                 initialValues={{ remember: true }}
                 onFinish={this.onFinish}
-                onFinishFailed={this.onFinishFailed}
                 autoComplete="off"
                 style={{ position: 'relative' }}
               >
@@ -239,7 +245,7 @@ class ArtManager extends Component<ArtManagerProps, ArtManagerState> {
                   name="title"
                   rules={[{ required: true, message: '请输入查询文章标题' }]}
                 >
-                  <Input style={{ borderRadius: '20px' }} />
+                  <Input name="title" style={{ borderRadius: '20px' }} />
                 </Form.Item>
                 <Form.Item
                   name="range-picker"
@@ -247,7 +253,7 @@ class ArtManager extends Component<ArtManagerProps, ArtManagerState> {
                   rules={[{ required: true, message: 'Please select time!' }]}
                   wrapperCol={{ span: 4 }}
                 >
-                  <RangePicker style={{ borderRadius: '20px' }} />
+                  <RangePicker name="date" style={{ borderRadius: '20px' }} />
                 </Form.Item>
 
                 <Button
