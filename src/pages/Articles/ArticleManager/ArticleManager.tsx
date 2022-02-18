@@ -112,7 +112,7 @@ class ArtManager extends Component<ArtManagerProps, ArtManagerState> {
     // 定义分页
     count: 0,
     pageNum: 0,
-    pageSize: 3
+    pageSize: 0
   }
   // 初始化
   // 获取用户信息
@@ -199,7 +199,7 @@ class ArtManager extends Component<ArtManagerProps, ArtManagerState> {
     console.log('Failed:', errorInfo)
   }
   // 分页
-  getPagination = async (page: number, pageSize: number) => {
+  getPagination = (page: number, pageSize: number) => {
     console.log(page, pageSize)
   }
   // 判断权限

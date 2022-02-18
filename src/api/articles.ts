@@ -24,7 +24,7 @@ export function addArticle(articleInfo: articleClass) {
  * @returns 
  */
 export function showArticleList() {
-  return request('/showArticleList', 'post', { pageNum: 0, pageSize: 7 });
+  return request('/showArticleList', 'post', { pageNum: 0, pageSize: 9 });
 }
 
 /** 删除文章

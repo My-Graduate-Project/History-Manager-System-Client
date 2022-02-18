@@ -9,6 +9,8 @@ import MdEditor from 'react-markdown-editor-lite'
 import 'react-markdown-editor-lite/lib/index.css'
 
 const mdParser = new MarkdownIt(/* Markdown-it options */)
+// withRouter
+import { withRouter } from 'react-router-dom'
 
 // antd
 import { Layout, Breadcrumb, Row, Col, Input, Button, DatePicker, message } from 'antd'
@@ -70,12 +72,13 @@ class ArticleWrite extends Component<ArticleWriteProps, ArticleWriteState> {
   // handleAddArticle 添加文章
   handleAddArticle = async () => {
     // console.log(this.state.articleInfo)
+    // console.log(this.props.location)
     await addArticle(this.state.articleInfo).then((res) => {
       console.log(res)
       if (res.code == 200) {
         // 跳转到展示页
-        console.log(this.props)
-        this.props.history.push('/history#/managerArt')
+        this.props.history.push('/managerArt')
+        message.success(res.msg)
       } else {
         message.error(res.msg)
       }
@@ -176,4 +179,4 @@ class ArticleWrite extends Component<ArticleWriteProps, ArticleWriteState> {
   }
 }
 
-export default ArticleWrite
+export default withRouter(ArticleWrite)
