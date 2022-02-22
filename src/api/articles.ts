@@ -23,8 +23,8 @@ export function addArticle(articleInfo: articleClass) {
  * 
  * @returns 
  */
-export function showArticleList() {
-  return request('/showArticleList', 'post', { pageNum: 0, pageSize: 9 });
+export function showArticleList(pageNum: number, pageSize: number) {
+  return request('/showArticleList', 'post', { pageNum: 0, pageSize: 100 });
 }
 
 /** 删除文章

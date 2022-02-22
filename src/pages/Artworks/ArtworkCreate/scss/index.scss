@@ -1,0 +1,51 @@
+.total-height {
+  height: 730px;
+}
+
+.left-artwork {
+  position: relative;
+
+  .site-content-left {
+    height: 100%;
+    background-color: #fff;
+    border-radius: 20px;
+  }
+  .steps {
+    width: 80%;
+    margin: 20px auto;
+  }
+  .form-artwork {
+    width: 100%;
+    margin-top: 50px;
+  }
+}
+
+.site-content-right {
+  height: 100%;
+  background-color: #fff;
+  border-radius: 20px;
+}
+
+.steps-action {
+  margin: 24px auto;
+  display: flex;
+  justify-content: center;
+
+  button {
+    border-radius: 20px;
+  }
+}
+.steps-content {
+  text-align: center;
+
+  input,
+  .ant-select:not(.ant-select-customize-input) .ant-select-selector {
+    border-radius: 20px;
+    text-align: center;
+  }
+
+  .avatar-uploader > .ant-upload {
+    width: 128px;
+    height: 128px;
+  }
+}

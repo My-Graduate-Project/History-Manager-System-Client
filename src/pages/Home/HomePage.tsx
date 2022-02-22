@@ -18,6 +18,8 @@ import HomeContent from './Components/HomeContent'
 import ArticlePage from '@/pages/Articles/ArticleList/ArticlePage'
 import ArticleManager from '@/pages/Articles/ArticleManager/ArticleManager'
 import ArticleWrite from '@/pages/Articles/ArticleWrite/ArticleWrite'
+// 画作详情组件
+import ArtworkWrite from '@/pages/Artworks/ArtworkCreate/ArtworkWrite'
 // 帮助中心组件
 import Other from '@/pages/Others/OtherPage'
 
@@ -94,6 +96,10 @@ class HomePage extends Component<HomePageProps, HomePageState> {
               <Route path="/managerWrite">
                 {/* 文章管理展示 */}
                 <ArticleWrite {...this.props}></ArticleWrite>
+              </Route>
+              {/* 画作详情部分 */}
+              <Route path="/artworkWrite">
+                <ArtworkWrite></ArtworkWrite>
               </Route>
               {/* 帮助中心部分 */}
               <Route path="/helpCenter">

@@ -126,11 +126,11 @@ class ArtManager extends Component<ArtManagerProps, ArtManagerState> {
     // 用户信息
     this.getUserInfo()
     // 文章列表
-    this.getArticleList()
+    this.getArticleList(0, 6)
   }
   // 获取文章列表数据
-  getArticleList = async () => {
-    const result = await showArticleList()
+  getArticleList = async (pageNum: number, pageSize: number) => {
+    const result = await showArticleList(pageNum, pageSize)
     result.data.forEach((item: { key: any; id: any }, index: number) => {
       item.key = `${item.id}`
     })
@@ -208,6 +208,7 @@ class ArtManager extends Component<ArtManagerProps, ArtManagerState> {
   // 分页
   getPagination = (page: number, pageSize: number) => {
     console.log(page, pageSize)
+    this.getArticleList(page, pageSize)
   }
   // 判断权限
   render() {

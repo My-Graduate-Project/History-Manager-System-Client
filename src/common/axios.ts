@@ -3,7 +3,7 @@ console.log(process.env.NODE_ENV)
 const config = {
   baseURL:
     process.env.NODE_ENV === "development"
-      ? "http://localhost:8080"
+      ? "http://localhost:3080"
       : "http://47.108.197.220:3010/api",
   timeout: 60 * 1000, // Timeout,
   withCredentials: false, // Check cross-site Access-Control

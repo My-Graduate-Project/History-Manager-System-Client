@@ -101,6 +101,9 @@ class HomeSiderBar extends Component<HomeSiderBarProps, HomeSiderBarState> {
             <Menu.Item key="subArtwork2" icon={<AlignCenterOutlined />}>
               画作详情处理
             </Menu.Item>
+            <Menu.Item key="subArtwork3" icon={<EditOutlined />}>
+              <Link to="/artworkWrite">画作作品创建</Link>
+            </Menu.Item>
           </SubMenu>
           {/* 历史古籍展示 */}
           <SubMenu key="subIncunabula" icon={<BookOutlined />} title="古籍展示">
