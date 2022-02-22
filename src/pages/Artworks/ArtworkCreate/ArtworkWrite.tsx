@@ -27,7 +27,9 @@ import { LoadingOutlined, PlusOutlined } from '@ant-design/icons'
 // withRouter
 import { withRouter } from 'react-router-dom'
 
-interface ArtworkWriteProps {}
+interface ArtworkWriteProps {
+  history: any
+}
 
 interface ArtworkWriteState {}
 
@@ -196,6 +198,10 @@ class ArtworkWrite extends Component<ArtworkWriteProps, ArtworkWriteState> {
     console.log(this.state.artworkInfo)
     const result = await addArtworkList(this.state.artworkInfo)
     console.log(result)
+    if (result.code === 200) {
+      message.success('发布成功')
+      this.props.history.push('/showArtworkList')
+    }
   }
   // customRequest
   handleCustomRequest = ({ file, onSuccess }) => {

@@ -20,6 +20,7 @@ import ArticleManager from '@/pages/Articles/ArticleManager/ArticleManager'
 import ArticleWrite from '@/pages/Articles/ArticleWrite/ArticleWrite'
 // 画作详情组件
 import ArtworkWrite from '@/pages/Artworks/ArtworkCreate/ArtworkWrite'
+import ArtworkList from '@/pages/Artworks/ArtworkList/ArtworkList'
 // 帮助中心组件
 import Other from '@/pages/Others/OtherPage'
 
@@ -99,7 +100,10 @@ class HomePage extends Component<HomePageProps, HomePageState> {
               </Route>
               {/* 画作详情部分 */}
               <Route path="/artworkWrite">
-                <ArtworkWrite></ArtworkWrite>
+                <ArtworkWrite {...this.props}></ArtworkWrite>
+              </Route>
+              <Route path="/showArtworkList">
+                <ArtworkList {...this.props}></ArtworkList>
               </Route>
               {/* 帮助中心部分 */}
               <Route path="/helpCenter">

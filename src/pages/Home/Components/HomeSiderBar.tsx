@@ -96,7 +96,7 @@ class HomeSiderBar extends Component<HomeSiderBarProps, HomeSiderBarState> {
           {/* 展品画作详情 */}
           <SubMenu key="subArtwork" icon={<FormatPainterOutlined />} title="画作展示">
             <Menu.Item key="subArtwork1" icon={<AppstoreOutlined />}>
-              画作详情列表
+              <Link to="/showArtworkList">画作详情列表</Link>
             </Menu.Item>
             <Menu.Item key="subArtwork2" icon={<AlignCenterOutlined />}>
               画作详情处理
