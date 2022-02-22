@@ -24,6 +24,8 @@ const { Step } = Steps
 const { Option } = Select
 // icons
 import { LoadingOutlined, PlusOutlined } from '@ant-design/icons'
+// withRouter
+import { withRouter } from 'react-router-dom'
 
 interface ArtworkWriteProps {}
 
@@ -44,20 +46,28 @@ const steps = [
     content: 'Third-content'
   }
 ]
-function beforeUpload(file) {
-  const isJpgOrPng = file.type === 'image/jpeg' || file.type === 'image/png'
-  if (!isJpgOrPng) {
-    message.error('You can only upload JPG/PNG file!')
+// 图片上传前
+function beforeUpload(file: any) {
+  const isJPG = file.type === 'image/jpeg'
+  const isJPEG = file.type === 'image/jpeg'
+  const isGIF = file.type === 'image/gif'
+  const isPNG = file.type === 'image/png'
+  if (!(isJPG || isJPEG || isGIF || isPNG)) {
+    message.error('只能上传JPG 、JPEG 、GIF、 PNG格式的图片~')
+    return false
   }
   const isLt2M = file.size / 1024 / 1024 < 2
   if (!isLt2M) {
-    message.error('Image must smaller than 2MB!')
+    message.error('超过2M限制，不允许上传~')
+    return false
   }
-  return isJpgOrPng && isLt2M
+  return (isJPG || isJPEG || isGIF || isPNG) && isLt2M
 }
 
 // scss
 import './scss/index.scss'
+// axios
+import { getAllArtworkStyles, getAllArtWorkTexture, addArtworkList } from '@/api/artwork'
 
 class ArtworkWrite extends Component<ArtworkWriteProps, ArtworkWriteState> {
   constructor(props: ArtworkWriteProps) {
@@ -69,7 +79,27 @@ class ArtworkWrite extends Component<ArtworkWriteProps, ArtworkWriteState> {
     current: 0,
     // 图片
     loading: false,
-    imageUrl: ''
+    // 画作信息
+    artworkInfo: {
+      artworkTitle: '',
+      artworkSubTitle: '',
+      artworkCreater: '',
+      artworkDynasty: '',
+      artworkCreatePlace: '',
+      artworkCreateTime: '',
+      artworkStyle: 0,
+      artworkTexture: 0,
+      artWork: '',
+      artworkDesc: '',
+      updateTime: ''
+    },
+    // 接收画作风格、材质数据
+    getartworkStyle: [],
+    getartworkTexture: []
+  }
+  // componentDidMount
+  componentDidMount() {
+    this.getData()
   }
   // 下一页
   next = () => {
@@ -84,12 +114,23 @@ class ArtworkWrite extends Component<ArtworkWriteProps, ArtworkWriteState> {
     })
   }
   // select change
-  handleSelectChange = (value) => {
-    console.log(`selected ${value}`)
+  handleSelectTexture = (value: any) => {
+    // console.log(`selected ${value}`)
+    this.setState({
+      artworkInfo: {
+        ...this.state.artworkInfo,
+        artworkTexture: value
+      }
+    })
   }
-  // form onFinish
-  onFinish = (values: any) => {
-    console.log(values)
+  handleSelectStyle = (value: any) => {
+    // console.log(`selected ${value}`)
+    this.setState({
+      artworkInfo: {
+        ...this.state.artworkInfo,
+        artworkStyle: value
+      }
+    })
   }
   // Upload onChange
   getBase64 = (img, callback) => {
@@ -107,27 +148,74 @@ class ArtworkWrite extends Component<ArtworkWriteProps, ArtworkWriteState> {
       // Get this url from response in real world.
       this.getBase64(info.file.originFileObj, (imageUrl: any) => {
         this.setState({
-          imageUrl: imageUrl,
-          loading: false
+          loading: false,
+          artworkInfo: {
+            ...this.state.artworkInfo,
+            artWork: imageUrl
+          }
         })
       })
     }
   }
   // date change
   handleChangeData = (date: any, dateString: string) => {
-    console.log(date)
+    this.setState({
+      artworkInfo: {
+        ...this.state.artworkInfo,
+        updateTime: dateString
+      }
+    })
   }
   normFile = (e: any) => {
-    //如果是typescript, 那么参数写成 e: any
-    // console.log('Upload event:', e)
     if (Array.isArray(e)) {
       return e
     }
     return e && e.fileList
   }
+  // 获取数据
+  getData = async () => {
+    const artworkStyles = await getAllArtworkStyles()
+    const artworkTexture = await getAllArtWorkTexture()
+    // console.log(artworkStyles)
+    this.setState({
+      getartworkStyle: artworkStyles.data,
+      getartworkTexture: artworkTexture.data
+    })
+  }
+  // input change
+  handleChange = (e: any) => {
+    this.setState({
+      artworkInfo: {
+        ...this.state.artworkInfo,
+        [e.target.name]: e.target.value
+      }
+    })
+  }
+  // submit
+  handleSubmit = async () => {
+    console.log(this.state.artworkInfo)
+    const result = await addArtworkList(this.state.artworkInfo)
+    console.log(result)
+  }
+  // customRequest
+  handleCustomRequest = ({ file, onSuccess }) => {
+    console.log(file)
+    const reader = new FileReader()
+    reader.readAsDataURL(file)
+    reader.onload = () => {
+      const base64 = reader.result
+      this.setState({
+        artworkInfo: {
+          ...this.state.artworkInfo,
+          artWork: base64
+        }
+      })
+      onSuccess(base64)
+    }
+    // onSuccess('ok')
+  }
   render() {
-    const { current, loading, imageUrl } = this.state
-    console.log(imageUrl)
+    const { current, loading } = this.state
     const uploadButton = (
       <div>
         {loading ? <LoadingOutlined /> : <PlusOutlined />}
@@ -147,6 +235,7 @@ class ArtworkWrite extends Component<ArtworkWriteProps, ArtworkWriteState> {
         </Row>
         {/* 表单列表 */}
         <Row>
+          {/* 左侧表单 */}
           <Col className="left-artwork total-height" span={16}>
             <Content
               className="site-content-left"
@@ -175,8 +264,7 @@ class ArtworkWrite extends Component<ArtworkWriteProps, ArtworkWriteState> {
               <Form
                 name="basic"
                 initialValues={{ remember: true }}
-                onFinish={this.onFinish}
-                // autoComplete="off"
+                autoComplete="off"
                 className="form-artwork"
               >
                 <div className="steps-content">
@@ -190,7 +278,7 @@ class ArtworkWrite extends Component<ArtworkWriteProps, ArtworkWriteState> {
                         wrapperCol={{ span: 12 }}
                         rules={[{ required: true, message: '请输入画作的主标题！！' }]}
                       >
-                        <Input name="artworkTitle" />
+                        <Input name="artworkTitle" onChange={this.handleChange} />
                       </Form.Item>
                       {/* 副标题 */}
                       <Form.Item
@@ -200,7 +288,7 @@ class ArtworkWrite extends Component<ArtworkWriteProps, ArtworkWriteState> {
                         wrapperCol={{ span: 12 }}
                         rules={[{ required: true, message: '请输入画作的副标题！！' }]}
                       >
-                        <Input />
+                        <Input name="artworkSubTitle" onChange={this.handleChange} />
                       </Form.Item>
                       {/* 作者 */}
                       <Form.Item
@@ -210,7 +298,7 @@ class ArtworkWrite extends Component<ArtworkWriteProps, ArtworkWriteState> {
                         wrapperCol={{ span: 12 }}
                         rules={[{ required: true, message: '请输入画作的原作者！！' }]}
                       >
-                        <Input />
+                        <Input name="artworkCreater" onChange={this.handleChange} />
                       </Form.Item>
                       {/* 风格、材质 */}
                       <Row>
@@ -221,27 +309,35 @@ class ArtworkWrite extends Component<ArtworkWriteProps, ArtworkWriteState> {
                             name="artworkStyle"
                             labelCol={{ span: 12 }}
                             wrapperCol={{ span: 8 }}
-                            rules={[{ required: true, message: '请输入画作的原作者！！' }]}
+                            rules={[{ required: true, message: '请选择画作风格！！' }]}
                           >
-                            <Select onChange={this.handleSelectChange}>
-                              <Option value="jack">Jack</Option>
-                              <Option value="lucy">Lucy</Option>
-                              <Option value="Yiminghe">yiminghe</Option>
+                            <Select onChange={this.handleSelectStyle}>
+                              {this.state.getartworkStyle.map((item: any) => {
+                                return (
+                                  <Option key={item.id} value={item.id}>
+                                    {item.title}
+                                  </Option>
+                                )
+                              })}
                             </Select>
                           </Form.Item>
                         </Col>
                         {/* 画作材质 */}
                         <Col span={12}>
                           <Form.Item
-                            label="画作风格"
+                            label="画作材质"
                             name="artworkTexture"
                             wrapperCol={{ span: 8 }}
-                            rules={[{ required: true, message: '请输入画作的原作者！！' }]}
+                            rules={[{ required: true, message: '请选择画作材质！！' }]}
                           >
-                            <Select onChange={this.handleSelectChange}>
-                              <Option value="jack">Jack</Option>
-                              <Option value="lucy">Lucy</Option>
-                              <Option value="Yiminghe">yiminghe</Option>
+                            <Select onChange={this.handleSelectTexture}>
+                              {this.state.getartworkTexture.map((item: any) => {
+                                return (
+                                  <Option key={item.id} value={item.id}>
+                                    {item.title}
+                                  </Option>
+                                )
+                              })}
                             </Select>
                           </Form.Item>
                         </Col>
@@ -254,7 +350,7 @@ class ArtworkWrite extends Component<ArtworkWriteProps, ArtworkWriteState> {
                         wrapperCol={{ span: 12 }}
                         rules={[{ required: true, message: '请输入画作的原作者！！' }]}
                       >
-                        <Input />
+                        <Input name="artworkDynasty" onChange={this.handleChange} />
                       </Form.Item>
                       {/* 画作创作地点 */}
                       <Form.Item
@@ -264,17 +360,17 @@ class ArtworkWrite extends Component<ArtworkWriteProps, ArtworkWriteState> {
                         wrapperCol={{ span: 12 }}
                         rules={[{ required: true, message: '请输入画作的原作者！！' }]}
                       >
-                        <Input />
+                        <Input name="artworkCreatePlace" onChange={this.handleChange} />
                       </Form.Item>
                       {/* 画作创作时间 */}
                       <Form.Item
                         label="创作时间"
-                        name="artworkCreateTIme"
+                        name="artworkCreateTime"
                         labelCol={{ span: 6 }}
                         wrapperCol={{ span: 12 }}
                         rules={[{ required: true, message: '请输入画作的原作者！！' }]}
                       >
-                        <Input />
+                        <Input name="artworkCreateTime" onChange={this.handleChange} />
                       </Form.Item>
                     </React.Fragment>
                   )}
@@ -288,7 +384,12 @@ class ArtworkWrite extends Component<ArtworkWriteProps, ArtworkWriteState> {
                         wrapperCol={{ span: 12 }}
                         rules={[{ required: true, message: '请输入画作描述' }]}
                       >
-                        <TextArea style={{ height: '100px' }} placeholder="请输入画作描述" />
+                        <TextArea
+                          name="artworkDesc"
+                          onChange={this.handleChange}
+                          style={{ height: '100px' }}
+                          placeholder="请输入画作描述"
+                        />
                       </Form.Item>
                       {/* 发布时间 */}
                       <Form.Item
@@ -300,7 +401,7 @@ class ArtworkWrite extends Component<ArtworkWriteProps, ArtworkWriteState> {
                       >
                         <DatePicker
                           style={{ borderRadius: '20px', width: '100%' }}
-                          name="created_time"
+                          name="updateTime"
                           onChange={this.handleChangeData}
                           placeholder="发布日期"
                           size="large"
@@ -316,16 +417,21 @@ class ArtworkWrite extends Component<ArtworkWriteProps, ArtworkWriteState> {
                         getValueFromEvent={this.normFile}
                       >
                         <Upload
-                          name="avatar"
+                          name="artWork"
                           listType="picture-card"
                           className="avatar-uploader"
                           showUploadList={false}
-                          action="https://www.mocky.io/v2/5cc8019d300000980a055e76"
+                          accept="image/*"
+                          customRequest={this.handleCustomRequest}
                           onChange={this.handleUploadChange}
                           beforeUpload={beforeUpload}
                         >
-                          {imageUrl ? (
-                            <img src={imageUrl} alt="avatar" style={{ width: '100%' }} />
+                          {this.state.artworkInfo.artWork ? (
+                            <img
+                              src={this.state.artworkInfo.artWork}
+                              alt="avatar"
+                              style={{ width: '100%' }}
+                            />
                           ) : (
                             uploadButton
                           )}
@@ -355,10 +461,7 @@ class ArtworkWrite extends Component<ArtworkWriteProps, ArtworkWriteState> {
                     )}
                     {/* 完成按钮 */}
                     {current === steps.length - 1 && (
-                      <Button
-                        type="primary"
-                        onClick={() => message.success('Processing complete!')}
-                      >
+                      <Button type="primary" onClick={this.handleSubmit}>
                         发布画作
                       </Button>
                     )}
@@ -384,14 +487,14 @@ class ArtworkWrite extends Component<ArtworkWriteProps, ArtworkWriteState> {
               }}
             >
               {/* imageUrl */}
-              {this.state.imageUrl === '' ? (
+              {this.state.artworkInfo.artWork === '' ? (
                 <Image
                   width={'100%'}
                   height={'100%'}
                   src="https://gitee.com/sue201982/mysql/raw/master/img/Madonna%20in%20the%20Meadow.jpg"
                 />
               ) : (
-                <Image width={'100%'} height={'100%'} src={this.state.imageUrl} />
+                <Image width={'100%'} height={'100%'} src={this.state.artworkInfo.artWork} />
               )}
             </Content>
           </Col>
@@ -401,4 +504,4 @@ class ArtworkWrite extends Component<ArtworkWriteProps, ArtworkWriteState> {
   }
 }
 
-export default ArtworkWrite
+export default withRouter(ArtworkWrite)

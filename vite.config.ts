@@ -31,7 +31,7 @@ export default defineConfig(({ command, mode }) => {
         // proxy
         host: "localhost",
         port: 3000,
-        cors: true,
+        cors: false,
         proxy: {
           '/api': {
             target: "http://localhost:8080",
