@@ -1,0 +1,45 @@
+.site-card-wrapper {
+  height: 264px;
+  margin: 20px;
+  text-align: center;
+  .ant-row {
+    height: 100%;
+  }
+}
+.ant-card {
+  border-radius: 20px;
+  height: 100%;
+  padding: 32px;
+
+  .ant-card-head-title {
+    font-size: 32px;
+    font-weight: bold;
+  }
+}
+
+.slick-list {
+  height: 100%;
+}
+
+// 轮播图部分
+.carousel {
+  width: 50%;
+  height: 100%;
+  float: left;
+  background-color: #ccc;
+  padding-right: 20px;
+
+  .carousel_item {
+    height: 348px;
+    color: #fff;
+    line-height: 348px;
+    text-align: center;
+    background: #ccc;
+  }
+}
+
+.echarts {
+  width: 50%;
+  height: 348px;
+  float: left;
+}
