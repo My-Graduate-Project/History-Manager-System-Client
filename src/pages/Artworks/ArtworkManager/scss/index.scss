@@ -1,0 +1,56 @@
+.artwork_search {
+  // width: 100%;
+  height: 200px;
+  margin: 20px;
+  border-radius: 20px;
+  // text-align: center;
+  background-color: #fff;
+  overflow: hidden;
+
+  .artwork_item {
+    padding: 42px;
+
+    input,
+    button {
+      border-radius: 20px;
+    }
+
+    .search_artwork_button {
+      margin-top: 40px;
+    }
+  }
+}
+
+.artwork_card {
+  float: left;
+  margin: 5px;
+
+  .ant-card-body {
+    padding: 24px 24px 10px 24px;
+  }
+
+  .artwork_card_img {
+    width: 216px;
+    height: 260px;
+  }
+  .artwork_tags,
+  .artwork_date {
+    float: left;
+    margin-top: 10px;
+    width: 70px;
+    height: 30px;
+    line-height: 30px;
+    text-align: center;
+    border-radius: 20px;
+  }
+
+  .artwork_creater {
+    width: 100%;
+    float: left;
+    margin-top: 10px;
+
+    > span {
+      color: #bbb;
+    }
+  }
+}
