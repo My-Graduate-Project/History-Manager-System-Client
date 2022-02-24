@@ -87,21 +87,6 @@
   border-radius: 20px;
   text-align: center;
 
-  // 小
-  .site-small {
-    width: 100%;
-    height: 200px;
-    overflow: hidden;
-
-    .site-content-small {
-      border-radius: 20px;
-      width: 350px;
-      height: 200px;
-      background-color: #e4edf4;
-      float: left;
-      margin: 0px 15px;
-    }
-  }
   // 中
   .site-middle {
     width: 100%;
@@ -116,6 +101,43 @@
       background-color: #e4edf4;
       float: left;
       margin: 0px 15px;
+
+      // 饼图
+      .showDetail {
+        width: 730px;
+        height: 400px;
+      }
+      // 轮播图
+      .ant-carousel,
+      .slick-slider {
+        height: 100%;
+        // background-color: #ccc;
+        border-radius: 20px;
+        overflow: hidden;
+
+        h1 {
+          font-weight: 900;
+          font-size: 32px;
+        }
+
+        img {
+          width: 320px;
+          height: 300px;
+          float: left;
+          margin-left: 20px;
+          border-radius: 20px;
+        }
+
+        span {
+          -webkit-line-clamp: 10; // 用来限制在一个块元素显示的文本的行数
+          display: -webkit-box; // 将对象作为弹性伸缩盒模型显示
+          -webkit-box-orient: vertical; //设置或检查伸缩盒对象的子元素的排列方式
+          text-overflow: ellipsis; // 在多行文本的情况下，用...隐藏超出范围的文本
+          word-break: break-all;
+          overflow: hidden;
+          padding: 30px 30px 0px 30px;
+        }
+      }
     }
   }
   // 大

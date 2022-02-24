@@ -32,3 +32,19 @@ class artworkList {
 export function addArtworkList(data: artworkList) {
   return request("/addArtwork", "post", data)
 }
+
+export function showArtworkList() {
+  return request("/showArtwork", "get")
+}
+
+export function searchArtwork(artworkTitle: string, startTime: string | Date, endTime: string | Date) {
+  return request("/searchArtwork", "post", { artworkTitle, startTime, endTime })
+}
+
+export function echoArtwork(artworkId: number) {
+  return request("/echoArtwork", "post", { artworkId })
+}
+
+export function updateArtworkStatus(artworkId: number, status: string) {
+  return request("/updateArtworkStatus", "post", { artworkId, status })
+}

@@ -10,7 +10,7 @@ import reducer from "./reducer";
 // 中间件挂载
 // const middleware = applyMiddleware(logger, thunk);
 // react_dev_tool
-const composeEnhancers = (typeof window !== 'undefined' && window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__) || compose;
+const composeEnhancers = compose;
 
 // 创建store实例
 const store = createStore(reducer, composeEnhancers(applyMiddleware(logger, thunk)));
