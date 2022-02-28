@@ -87,6 +87,21 @@
   border-radius: 20px;
   text-align: center;
 
+  .site-small {
+    width: 100%;
+    height: 200px;
+    overflow: hidden;
+
+    .site-content-small {
+      border-radius: 20px;
+      width: 350px;
+      height: 200px;
+      background-color: #e4edf4;
+      float: left;
+      margin: 0 15px;
+    }
+  }
+
   // 中
   .site-middle {
     width: 100%;
@@ -154,6 +169,14 @@
       background-color: #e4edf4;
       float: left;
       margin: 0px 15px;
+
+      .dailyPerson {
+        width: 1490px;
+        height: 400px;
+        background-color: #e4edf4;
+        float: left;
+        margin: 0px 15px;
+      }
     }
   }
 }

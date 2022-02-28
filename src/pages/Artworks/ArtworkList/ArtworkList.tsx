@@ -14,10 +14,14 @@ interface ArticleListState {}
 // scss
 import './scss/index.scss'
 
+import { showArtworkList } from '@/api/artwork'
+
 class ArticleList extends Component<ArticleListProps, ArticleListState> {
   constructor(props: ArticleListProps) {
     super(props)
-    this.state = {}
+  }
+  state = {
+    artworkData: []
   }
   componentDidMount() {
     let chartDom = document.querySelector('.echarts') as HTMLElement
@@ -44,6 +48,15 @@ class ArticleList extends Component<ArticleListProps, ArticleListState> {
       ]
     }
     myChart.setOption(option)
+    // 获取数据
+    this.getArtworkList()
+  }
+  // 获取文章列表
+  getArtworkList = async () => {
+    const result = await showArtworkList()
+    this.setState({
+      artworkData: result.data
+    })
   }
   render() {
     return (
@@ -90,18 +103,11 @@ class ArticleList extends Component<ArticleListProps, ArticleListState> {
         >
           {/* 轮播图部分 */}
           <Carousel className="carousel" autoplay>
-            <div className="carousel_item">
-              <h3>1</h3>
-            </div>
-            <div className="carousel_item">
-              <h3>2</h3>
-            </div>
-            <div className="carousel_item">
-              <h3>3</h3>
-            </div>
-            <div className="carousel_item">
-              <h3>4</h3>
-            </div>
+            {this.state.artworkData.map((item: any, index: number) => (
+              <div className="carousel_item" key={item.id}>
+                <img src={item.artwork} alt="" />
+              </div>
+            ))}
           </Carousel>
 
           {/* 表格部分 --echarts */}

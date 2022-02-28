@@ -22,6 +22,9 @@ import ArticleWrite from '@/pages/Articles/ArticleWrite/ArticleWrite'
 import ArtworkWrite from '@/pages/Artworks/ArtworkCreate/ArtworkWrite'
 import ArtworkList from '@/pages/Artworks/ArtworkList/ArtworkList'
 import ArtworkManage from '@/pages/Artworks/ArtworkManager/ArtworkManager'
+// 角色管理组件
+import Administrator from '@/pages/person/Administrator/Administrator'
+import UserList from '@/pages/person/UserList/userList'
 // 帮助中心组件
 import Other from '@/pages/Others/OtherPage'
 
@@ -108,6 +111,13 @@ class HomePage extends Component<HomePageProps, HomePageState> {
               </Route>
               <Route path="/manageArtrwork">
                 <ArtworkManage {...this.props}></ArtworkManage>
+              </Route>
+              {/* 角色管理 */}
+              <Route path="/administrator">
+                <Administrator {...this.props} />
+              </Route>
+              <Route path="/userList">
+                <UserList {...this.props} />
               </Route>
               {/* 帮助中心部分 */}
               <Route path="/helpCenter">

@@ -153,10 +153,10 @@ class HomeSiderBar extends Component<HomeSiderBarProps, HomeSiderBarState> {
           {/* 角色管理 */}
           <SubMenu key="subCharacter" icon={<ContactsOutlined />} title="角色管理">
             <Menu.Item key="subCharacter1" icon={<SafetyOutlined />}>
-              管理员列表
+              <Link to="/administrator">管理员列表</Link>
             </Menu.Item>
             <Menu.Item key="subCharacter2" icon={<UserOutlined />}>
-              用户列表
+              <Link to="/userList">用户列表</Link>
             </Menu.Item>
           </SubMenu>
           {/* 帮助中心 */}
