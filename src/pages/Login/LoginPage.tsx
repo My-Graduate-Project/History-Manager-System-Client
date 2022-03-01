@@ -35,7 +35,7 @@ class Home extends Component<HomeProps, HomeState> {
         {/* <Link to="/other">跳转到 Other 页面</Link> */}
         {/* 0. 标题部分 */}
         <div className="homeTitle">
-          <h1>迦勒底の历史观测所</h1>
+          <h1>迦勒底历史观测所</h1>
         </div>
         {/* 地球仪 */}
         <LoginEarth></LoginEarth>

@@ -23,11 +23,11 @@ import {
   SettingOutlined,
   PushpinOutlined
 } from '@ant-design/icons'
-// Menus
-const { SubMenu } = Menu
 
 // react-router-dom
 import { Link } from 'react-router-dom'
+// Menus
+const { SubMenu } = Menu
 
 interface HomeSiderBarProps {
   history: any
@@ -36,14 +36,20 @@ interface HomeSiderBarProps {
 
 interface HomeSiderBarState {}
 
+// axios
+import { userInfo } from '@/api/login'
+
 class HomeSiderBar extends Component<HomeSiderBarProps, HomeSiderBarState> {
   constructor(props: HomeSiderBarProps) {
     super(props)
   }
+
   state = {
     openKeys: [''],
-    defaultSelectedKeys: ['1']
+    defaultSelectedKeys: ['1'],
+    privilege: ''
   }
+
   componentDidMount() {
     // 获取当前路由
     const { history, location } = this.props
@@ -59,13 +65,25 @@ class HomeSiderBar extends Component<HomeSiderBarProps, HomeSiderBarState> {
       default:
         break
     }
+    // 获取当前用户权限
+    this.getPrivilege()
   }
+  // 获取权限
+  getPrivilege = async () => {
+    const { data } = await userInfo()
+    // console.log(data)
+    this.setState({
+      privilege: data.privilege
+    })
+  }
+
   //
   handleOpenChange = (openKeys: any) => {
     this.setState({
-      openKeys: openKeys
+      openKeys
     })
   }
+
   render() {
     return (
       <React.Fragment>
@@ -86,9 +104,13 @@ class HomeSiderBar extends Component<HomeSiderBarProps, HomeSiderBarState> {
             <Menu.Item key="subArtitle1" icon={<DatabaseOutlined />}>
               <Link to="/article">文章管理</Link>
             </Menu.Item>
-            <Menu.Item key="subArtitle2" icon={<AlignCenterOutlined />}>
-              <Link to="/managerArt">文章处理</Link>
-            </Menu.Item>
+            {this.state.privilege === '管理员' ? (
+              <Menu.Item key="subArtitle2" icon={<AlignCenterOutlined />}>
+                <Link to="/managerArt">文章处理</Link>
+              </Menu.Item>
+            ) : (
+              ''
+            )}
             <Menu.Item key="subArtitle3" icon={<EditOutlined />}>
               <Link to="/managerWrite">写文章</Link>
             </Menu.Item>
@@ -98,9 +120,13 @@ class HomeSiderBar extends Component<HomeSiderBarProps, HomeSiderBarState> {
             <Menu.Item key="subArtwork1" icon={<AppstoreOutlined />}>
               <Link to="/showArtworkList">画作详情列表</Link>
             </Menu.Item>
-            <Menu.Item key="subArtwork2" icon={<AlignCenterOutlined />}>
-              <Link to="/manageArtrwork">画作详情处理</Link>
-            </Menu.Item>
+            {this.state.privilege === '管理员' ? (
+              <Menu.Item key="subArtwork2" icon={<AlignCenterOutlined />}>
+                <Link to="/manageArtrwork">画作详情处理</Link>
+              </Menu.Item>
+            ) : (
+              ''
+            )}
             <Menu.Item key="subArtwork3" icon={<EditOutlined />}>
               <Link to="/artworkWrite">画作作品创建</Link>
             </Menu.Item>
@@ -151,14 +177,18 @@ class HomeSiderBar extends Component<HomeSiderBarProps, HomeSiderBarState> {
             </Menu.Item>
           </SubMenu>
           {/* 角色管理 */}
-          <SubMenu key="subCharacter" icon={<ContactsOutlined />} title="角色管理">
-            <Menu.Item key="subCharacter1" icon={<SafetyOutlined />}>
-              <Link to="/administrator">管理员列表</Link>
-            </Menu.Item>
-            <Menu.Item key="subCharacter2" icon={<UserOutlined />}>
-              <Link to="/userList">用户列表</Link>
-            </Menu.Item>
-          </SubMenu>
+          {this.state.privilege === '管理员' ? (
+            <SubMenu key="subCharacter" icon={<ContactsOutlined />} title="角色管理">
+              <Menu.Item key="subCharacter1" icon={<SafetyOutlined />}>
+                <Link to="/administrator">管理员列表</Link>
+              </Menu.Item>
+              <Menu.Item key="subCharacter2" icon={<UserOutlined />}>
+                <Link to="/userList">用户列表</Link>
+              </Menu.Item>
+            </SubMenu>
+          ) : (
+            ''
+          )}
           {/* 帮助中心 */}
           <SubMenu key="subHelpCenter" icon={<SettingOutlined />} title="帮助中心">
             <Menu.Item key="subHelpCenter1" icon={<PushpinOutlined />}>

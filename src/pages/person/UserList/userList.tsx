@@ -1,7 +1,7 @@
 import * as React from 'react'
 import { useState, useEffect } from 'react'
 // antd
-import { Breadcrumb, Layout, Table, Space } from 'antd'
+import { Breadcrumb, Layout, Table, Space, Empty } from 'antd'
 const { Content } = Layout
 
 // axios
@@ -61,7 +61,7 @@ function AdministratorPage() {
           minHeight: 280
         }}
       >
-        <Table columns={columns} dataSource={data} />
+        {data.length === 0 ? <Empty /> : <Table columns={columns} dataSource={data} />}
       </Content>
     </div>
   )

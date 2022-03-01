@@ -60,17 +60,17 @@ input {
   font-size: 12px;
   &:hover {
     color: lightslategray;
-    border-bottom: 2px solid #ff4b2b;
+    border-bottom: 2px solid #cbac80;
   }
 }
 
 small {
-  color: red;
+  color: #cbac80;
   font-size: 8px;
 }
 
 button {
-  background: #ff4b2b;
+  background: #cebf4d;
   padding: 10px 50px;
   border: 1px solid transparent;
   border-radius: 20px;
@@ -103,7 +103,7 @@ button {
   width: 200%;
   height: 100%;
   left: -100%;
-  background-color: #ff4b2b;
+  background-color: #e2cc81;
 }
 
 .overlay_panel {
